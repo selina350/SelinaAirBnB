@@ -5,6 +5,11 @@ const router = express.Router();
 //     // res.cookie('XSRF-TOKEN', req.csrfToken());
 //     res.send('Hello World!');
 //   });
+const apiRouter = require('./api');
+
+router.use('/api', apiRouter);
+
+
 router.get('/api/csrf/restore', function(req, res) {
     const csrfToken = req.csrfToken();
     res.cookie("XSRF-TOKEN", csrfToken);
