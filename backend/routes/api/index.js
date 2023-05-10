@@ -8,6 +8,7 @@ router.use(restoreUser);
 router.use('/session', sessionRouter);
 
 router.use('/users', usersRouter);
+
 const { setTokenCookie } = require("../../utils/auth");
 const { User } = require("../../db/models");
 router.get("/set-token-cookie", async (_req, res) => {
