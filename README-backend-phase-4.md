@@ -491,7 +491,9 @@ fetch('/api/users', {
   body: JSON.stringify({
     email: 'spidey@spider.man',
     username: 'Spidey',
-    password: 'password'
+    password: 'password',
+    firstName: 'Spidey',
+    lastName:'Man'
   })
 }).then(res => res.json()).then(data => console.log(data));
 ```
