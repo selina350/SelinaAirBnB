@@ -17,8 +17,12 @@ const validateSignup = [
     .isLength({ min: 4 })
     .withMessage("Please provide a username with at least 4 characters."),
   check("username").not().isEmail().withMessage("Username cannot be an email."),
-  check("firstName").exists({ checkFalsy: true }).withMessage("firstName can not be null."),
-  check("lastName").exists({ checkFalsy: true }).withMessage("lastName can not be null."),
+  check("firstName")
+    .exists({ checkFalsy: true })
+    .withMessage("firstName can not be null."),
+  check("lastName")
+    .exists({ checkFalsy: true })
+    .withMessage("lastName can not be null."),
   check("password")
     .exists({ checkFalsy: true })
     .isLength({ min: 6 })
@@ -52,5 +56,6 @@ router.post("/", validateSignup, async (req, res) => {
     user: safeUser,
   });
 });
+
 
 module.exports = router;
