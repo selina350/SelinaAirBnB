@@ -7,14 +7,14 @@ const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
 const router = express.Router();
 
-// Restore session user
+// Restore session user || Get current user
 router.get("/", (req, res) => {
   const { user } = req;
   if (user) {
     const safeUser = {
       id: user.id,
       email: user.email,
-      username: user.username,
+      // username: user.username,
       firstName:user.firstName,
       lastName:user.lastName
     };
