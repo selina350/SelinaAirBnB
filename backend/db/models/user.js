@@ -9,6 +9,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasMany(models.Spot, {
+        foreignKey: "ownerId",
+        onDelete: "CASCADE",
+        hooks: true,
+      });
     }
   }
   User.init(
@@ -24,41 +29,41 @@ module.exports = (sequelize, DataTypes) => {
       email: {
         type: DataTypes.STRING,
         unique: true,
-        allowNull:false,
+        allowNull: false,
         validate: {
           isEmail: true,
-          len:[3,256]
+          len: [3, 256],
         },
       },
       hashedPassword: {
-        type:DataTypes.STRING.BINARY,
-        allowNull:false,
-        validate:{
-          len:[60,60]
-        }
+        type: DataTypes.STRING.BINARY,
+        allowNull: false,
+        validate: {
+          len: [60, 60],
+        },
       },
       username: {
         type: DataTypes.STRING,
         unique: true,
         allowNull: false,
-        validate:{
-          len:[4,30],
-          isNotEmail(value){
-            if(Validator.isEmail(value)){
-              throw new Error("username can not be an email.")
+        validate: {
+          len: [4, 30],
+          isNotEmail(value) {
+            if (Validator.isEmail(value)) {
+              throw new Error("username can not be an email.");
             }
-          }
-        }
+          },
+        },
       },
     },
     {
       sequelize,
       modelName: "User",
-      defaultScope:{
-        attributes:{
-          exclude: ["hashedPassword", "email", "createdAt", "updatedAt"]
-        }
-      }
+      defaultScope: {
+        attributes: {
+          exclude: ["hashedPassword", "email", "createdAt", "updatedAt"],
+        },
+      },
     }
   );
   return User;
