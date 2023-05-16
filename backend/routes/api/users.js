@@ -1,5 +1,6 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
+const { ValidationError } = require("sequelize");
 
 const { setTokenCookie, requireAuth } = require("../../utils/auth");
 const { User } = require("../../db/models");
@@ -11,7 +12,7 @@ const validateSignup = [
   check("email")
     .exists({ checkFalsy: true })
     .isEmail()
-    .withMessage("Please provide a valid email."),
+    .withMessage("Invalid email."),
   check("username")
     .exists({ checkFalsy: true })
     .isLength({ min: 4 })
@@ -19,10 +20,10 @@ const validateSignup = [
   check("username").not().isEmail().withMessage("Username cannot be an email."),
   check("firstName")
     .exists({ checkFalsy: true })
-    .withMessage("firstName can not be null."),
+    .withMessage("First Name is required."),
   check("lastName")
     .exists({ checkFalsy: true })
-    .withMessage("lastName can not be null."),
+    .withMessage("Last Name is required."),
   check("password")
     .exists({ checkFalsy: true })
     .isLength({ min: 6 })
@@ -34,14 +35,36 @@ const validateSignup = [
 router.post("/", validateSignup, async (req, res) => {
   const { email, password, username, firstName, lastName } = req.body;
   const hashedPassword = bcrypt.hashSync(password);
-  const user = await User.create({
-    email,
-    username,
-    hashedPassword,
-    firstName,
-    lastName,
-  });
-
+  let user;
+  try {
+    user = await User.create({
+      email,
+      username,
+      hashedPassword,
+      firstName,
+      lastName,
+    });
+  } catch (err) {
+    let errors = {};
+    let hasUniqueVio = false;
+    if (!err instanceof ValidationError) {
+      throw err;
+    }
+    err.errors.forEach((e) => {
+      if (e.type === "unique violation") {
+        hasUniqueVio = true;
+        return (errors[e.path] = `User with that ${e.path} already exists`);
+      }
+    });
+    if (hasUniqueVio) {
+      return res.status(500).json({
+        message: "User already exists",
+        errors,
+      });
+    } else {
+      throw err;
+    }
+  }
   const safeUser = {
     id: user.id,
     email: user.email,
@@ -56,6 +79,5 @@ router.post("/", validateSignup, async (req, res) => {
     user: safeUser,
   });
 });
-
 
 module.exports = router;
