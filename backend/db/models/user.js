@@ -14,6 +14,8 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "CASCADE",
         hooks: true,
       });
+    
+
     }
   }
   User.init(
