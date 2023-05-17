@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const { ValidationError } = require("sequelize");
 
 const { setTokenCookie, requireAuth } = require("../../utils/auth");
-const { User,Spot } = require("../../db/models");
+const { User, Spot } = require("../../db/models");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
 const router = express.Router();
@@ -81,13 +81,13 @@ router.post("/", validateSignup, async (req, res) => {
 });
 
 //get all spots by current user
-router.get("/me/spots", requireAuth, async(req,res,next)=>{
-  const id = req.user.id
+router.get("/me/spots", requireAuth, async (req, res, next) => {
+  const id = req.user.id;
   const spots = await Spot.findAll({
-    where:{ownerId: id}
-  })
-  res.json(spots)
-})
+    where: { ownerId: id },
+  });
+  res.json(spots);
+});
 
 
 module.exports = router;
