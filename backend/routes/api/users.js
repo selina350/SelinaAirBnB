@@ -81,8 +81,8 @@ router.post("/", validateSignup, async (req, res) => {
 });
 
 //get all spots by current user
-router.get("/:id/spots", requireAuth, async(req,res,next)=>{
-  const id = req.params.id;
+router.get("/me/spots", requireAuth, async(req,res,next)=>{
+  const id = req.user.id
   const spots = await Spot.findAll({
     where:{ownerId: id}
   })
