@@ -287,7 +287,7 @@ Returns all the spots owned (created) by the current user.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: `/user/spots`
+  * URL: `/me/spots`
   * Body: none
 
 * Successful Response
@@ -392,7 +392,7 @@ Creates and returns a new spot.
 * Require Authentication: true
 * Request
   * Method: POST
-  * URL: `/user/spots`
+  * URL: `/me/spots`
   * Headers:
     * Content-Type: application/json
   * Body:

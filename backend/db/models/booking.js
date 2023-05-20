@@ -11,13 +11,29 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Booking.belongsTo(models.User);
+      Booking.belongsTo(models.Spot);
     }
   }
   Booking.init({
     spotId: DataTypes.INTEGER,
     userId: DataTypes.INTEGER,
-    startDate: DataTypes.DATE,
-    endDate: DataTypes.DATE
+    startDate:{
+      type:DataTypes.DATE,
+      allowNull:false
+    },
+    endDate:{
+      type:DataTypes.DATE,
+      allowNull:false,
+      validate:{
+        afterStartDate(value){
+          if(value<= this.startDate){
+            throw new Error("endDate cannot be on or before startDate")
+          }
+        }
+
+      }
+    },
   }, {
     sequelize,
     modelName: 'Booking',
