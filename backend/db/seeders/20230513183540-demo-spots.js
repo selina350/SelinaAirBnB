@@ -1,8 +1,9 @@
 "use strict";
-const bcrypt = require("bcryptjs");
+const { Op } = require("sequelize");
+const {User} = require("../models")
 const demoSpots = [
   {
-    ownerId: 1,
+    username: "Demo-lition",
     address: "123 Disney Lane",
     city: "San Francisco",
     state: "California",
@@ -14,7 +15,7 @@ const demoSpots = [
     price: 123,
   },
   {
-    ownerId: 1,
+    username: "Demo-lition",
     address: "address1",
     city: "city1",
     state: "California",
@@ -27,7 +28,7 @@ const demoSpots = [
   },
 
   {
-    ownerId: 2,
+    username: "FakeUser2",
     address: "address2",
     city: "city2",
     state: "California",
@@ -38,7 +39,78 @@ const demoSpots = [
     description: "Place where web developers are created",
     price: 200,
   },
-
+  {
+    username: "FakeUser2",
+    address: "address22",
+    city: "city22",
+    state: "California",
+    country: "United States of America",
+    lat: 37.764533,
+    lng: -122.4730323,
+    name: "App Academy",
+    description: "Place where web developers are created",
+    price: 150,
+  },
+  {
+    username: "FakeUser3",
+    address: "address3",
+    city: "city3",
+    state: "California",
+    country: "United States of America",
+    lat: 37.764533,
+    lng: -122.4730323,
+    name: "App Academy",
+    description: "Place where web developers are created",
+    price: 150,
+  },
+  {
+    username: "FakeUser4",
+    address: "address4",
+    city: "city4",
+    state: "California",
+    country: "United States of America",
+    lat: 37.764533,
+    lng: -122.4730323,
+    name: "App Academy",
+    description: "Place where web developers are created",
+    price: 400,
+  },
+  {
+    username: "FakeUser5",
+    address: "address5",
+    city: "city5",
+    state: "California",
+    country: "United States of America",
+    lat: 37.764533,
+    lng: -122.4730323,
+    name: "App Academy",
+    description: "Place where web developers are created",
+    price: 500,
+  },
+  {
+    username: "FakeUser6",
+    address: "address6",
+    city: "city6",
+    state: "California",
+    country: "United States of America",
+    lat: 37.764533,
+    lng: -122.4730323,
+    name: "App Academy",
+    description: "Place where web developers are created",
+    price: 600,
+  },
+  {
+    username: "FakeUser3",
+    address: "address33",
+    city: "city33",
+    state: "California",
+    country: "United States of America",
+    lat: 37.764533,
+    lng: -122.4730323,
+    name: "App Academy",
+    description: "Place where web developers are created",
+    price: 200,
+  },
 ];
 let options = {};
 if (process.env.NODE_ENV === "production") {
@@ -48,20 +120,18 @@ if (process.env.NODE_ENV === "production") {
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     options.tableName = "Spots";
-    return queryInterface.bulkInsert(
-      options,
-      demoSpots,
-      {}
-    );
+    for(let i = 0; i < demoSpots.length; i++){
+      const spot = demoSpots[i];
+      const user = await User.findOne({where:{username: spot.username}})
+      spot.ownerId = user.id;
+      delete spot.username
+    }
+    return queryInterface.bulkInsert(options, demoSpots, {});
   },
 
   down: async (queryInterface, Sequelize) => {
     options.tableName = "Spots";
-    const Op = Sequelize.Op;
-    return queryInterface.bulkDelete(
-      options,
-      demoSpots,
-      {}
-    );
+
+    return queryInterface.bulkDelete(options, {}, {});
   },
 };
