@@ -1,5 +1,6 @@
 "use strict";
 const { Model } = require("sequelize");
+const { Review } = require("../models");
 module.exports = (sequelize, DataTypes) => {
   class Spot extends Model {
     /**
@@ -11,14 +12,26 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Spot.belongsTo(models.User, { foreignKey: "ownerId" });
       Spot.hasMany(models.Image, {
+        as: "SpotImages",
         foreignKey: "imageableId",
         constraints: false,
         scope: {
           imageableType: "Spot",
         },
       });
-      Spot.belongsToMany(models.User, { through: models.Booking });
-      Spot.belongsToMany(models.User, { through: models.Review });
+
+      Spot.belongsToMany(models.User, {
+        through: models.Review,
+        foreignKey: "spotId",
+        otherKey: "userId",
+      });
+      Spot.hasMany(models.Review);
+      Spot.belongsToMany(models.User, {
+        through: models.Booking,
+        foreignKey: "spotId",
+        otherKey: "userId",
+      });
+      Spot.hasMany(models.Booking);
     }
   }
   Spot.init(
@@ -63,6 +76,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Spot",
+      
     }
   );
   return Spot;

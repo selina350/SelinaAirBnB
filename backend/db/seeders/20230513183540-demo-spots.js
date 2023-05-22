@@ -3,7 +3,7 @@ const { Op } = require("sequelize");
 const {User} = require("../models")
 const demoSpots = [
   {
-    username: "Demo-lition",
+    username: "Demo-lition",//1
     address: "123 Disney Lane",
     city: "San Francisco",
     state: "California",
@@ -15,7 +15,7 @@ const demoSpots = [
     price: 123,
   },
   {
-    username: "Demo-lition",
+    username: "Demo-lition",//1
     address: "address1",
     city: "city1",
     state: "California",
@@ -28,7 +28,7 @@ const demoSpots = [
   },
 
   {
-    username: "FakeUser2",
+    username: "FakeUser2",//2
     address: "address2",
     city: "city2",
     state: "California",
@@ -40,7 +40,7 @@ const demoSpots = [
     price: 200,
   },
   {
-    username: "FakeUser2",
+    username: "FakeUser2",//2
     address: "address22",
     city: "city22",
     state: "California",
@@ -52,7 +52,7 @@ const demoSpots = [
     price: 150,
   },
   {
-    username: "FakeUser3",
+    username: "FakeUser3",//3
     address: "address3",
     city: "city3",
     state: "California",
@@ -64,7 +64,7 @@ const demoSpots = [
     price: 150,
   },
   {
-    username: "FakeUser4",
+    username: "FakeUser4",//4
     address: "address4",
     city: "city4",
     state: "California",
@@ -76,7 +76,7 @@ const demoSpots = [
     price: 400,
   },
   {
-    username: "FakeUser5",
+    username: "FakeUser5",//5
     address: "address5",
     city: "city5",
     state: "California",
@@ -88,7 +88,7 @@ const demoSpots = [
     price: 500,
   },
   {
-    username: "FakeUser6",
+    username: "FakeUser6",//6
     address: "address6",
     city: "city6",
     state: "California",
@@ -100,7 +100,7 @@ const demoSpots = [
     price: 600,
   },
   {
-    username: "FakeUser3",
+    username: "FakeUser3",//3
     address: "address33",
     city: "city33",
     state: "California",
