@@ -1,6 +1,5 @@
 "use strict";
 const { Model } = require("sequelize");
-const { Review } = require("../models");
 module.exports = (sequelize, DataTypes) => {
   class Spot extends Model {
     /**
@@ -25,13 +24,17 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "spotId",
         otherKey: "userId",
       });
-      Spot.hasMany(models.Review);
+      Spot.hasMany(models.Review, {
+        foreignKey: "spotId",
+      });
       Spot.belongsToMany(models.User, {
         through: models.Booking,
         foreignKey: "spotId",
         otherKey: "userId",
       });
-      Spot.hasMany(models.Booking);
+      Spot.hasMany(models.Booking, {
+        foreignKey: "spotId",
+      });
     }
   }
   Spot.init(
