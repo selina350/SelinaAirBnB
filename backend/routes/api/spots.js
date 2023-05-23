@@ -65,7 +65,7 @@ router.get("/:id", async (req, res, next) => {
         required: false,
       },
     ],
-    group: ["Spot.id", "SpotImages.id"],
+    group: ["Spot.id", "User.id", "SpotImages.id"],
   });
   if (spot) {
     res.json(spot);
