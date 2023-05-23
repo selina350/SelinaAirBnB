@@ -25,13 +25,13 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "spotId",
         otherKey: "userId",
       });
-      // Spot.hasMany(models.Review);
+      Spot.hasMany(models.Review);
       Spot.belongsToMany(models.User, {
         through: models.Booking,
         foreignKey: "spotId",
         otherKey: "userId",
       });
-      // Spot.hasMany(models.Booking);
+      Spot.hasMany(models.Booking);
     }
   }
   Spot.init(
@@ -76,7 +76,6 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Spot",
-
     }
   );
   return Spot;
