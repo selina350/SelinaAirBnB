@@ -9,7 +9,7 @@ const { handleValidationErrors } = require("../../utils/validation");
 //get all spots
 router.get("/", async (req, res, next) => {
   const allSpots = await Spot.findAll({
-    group: ["Spot.id"],
+    group: ["Spot.id", "SpotImages.url"],
     attributes: {
       include: [
         [Sequelize.fn("AVG", Sequelize.col("Reviews.stars")), "avgRating"],
@@ -30,7 +30,7 @@ router.get("/", async (req, res, next) => {
       },
     ],
   });
- 
+
   res.json(allSpots);
 });
 
@@ -42,10 +42,9 @@ router.get("/:id", async (req, res, next) => {
   }
 
   const spot = await Spot.findByPk(id, {
-
     attributes: {
       include: [
-        [Sequelize.fn("COUNT", Sequelize.col("Reviews.stars")), "numReviews"],
+        [Sequelize.fn("COUNT", Sequelize.col("Reviews.id")), "numReviews"],
         [Sequelize.fn("AVG", Sequelize.col("Reviews.stars")), "avgRating"],
       ],
     },
@@ -59,7 +58,6 @@ router.get("/:id", async (req, res, next) => {
         model: Image,
         attributes: ["id", "url", "preview"],
         as: "SpotImages",
-
       },
       {
         model: User,
@@ -67,7 +65,7 @@ router.get("/:id", async (req, res, next) => {
         required: false,
       },
     ],
-     group: ["SpotImages.id"],
+    group: ["SpotImages.id"],
   });
   if (spot) {
     res.json(spot);
