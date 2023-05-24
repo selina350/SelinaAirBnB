@@ -6,6 +6,17 @@ const { requireAuth } = require("../../utils/auth");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
 
+const reviewsRouter = require("./reviews.js");
+
+router.use(
+  "/:id/reviews",
+  (req, res, next) => {
+    req.spotId = +req.params.id;
+    next();
+  },
+  reviewsRouter
+);
+
 //get all spots
 router.get("/", async (req, res, next) => {
   const allSpots = await Spot.findAll({
@@ -183,6 +194,8 @@ router.put("/:id", requireAuth, validateSpot, async (req, res, next) => {
     });
   }
 });
+
+
 
 //delete spot
 router.delete("/:id", requireAuth, async (req, res, next) => {

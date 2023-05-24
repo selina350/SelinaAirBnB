@@ -157,7 +157,7 @@ user's information.
 * Require Authentication: false
 * Request
   * Method: POST
-  * URL: `/signup`
+  * URL: `/users`
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -634,7 +634,7 @@ Returns all the reviews written by the current user.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: `/user/reviews`
+  * URL: `users/me/reviews`
   * Body: none
 
 * Successful Response
@@ -822,7 +822,7 @@ Create and return a new image for a review specified by id.
 * Require Authentication: true
 * Require proper authorization: Review must belong to the current user
 * Request
-  * Method: PUT
+  * Method: POST
   * URL: `/reviews/:id/images`
   * Headers:
     * Content-Type: application/json

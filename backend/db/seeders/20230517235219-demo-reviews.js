@@ -58,21 +58,22 @@ const users = {
     email: "user2@user.io",
     username: "FakeUser2",
   },
-  3:{
+  3: {
     email: "user3@user.io",
     username: "FakeUser3",
   },
-  4:{
+  4: {
     email: "user4@user.io",
     username: "FakeUser4",
   },
-  5:{
+  5: {
     email: "user5@user.io",
     username: "FakeUser5",
-  }
+  },
 };
 const spots = {
-  1: {//onwer:1
+  1: {
+    //onwer:1
     address: "123 Disney Lane",
     city: "San Francisco",
     state: "California",
@@ -83,7 +84,8 @@ const spots = {
     description: "Place where web developers are created",
     price: 123,
   },
-  2: {//onwer:1
+  2: {
+    //onwer:1
     address: "address1",
     city: "city1",
     state: "California",
@@ -94,7 +96,8 @@ const spots = {
     description: "Place where web developers are created",
     price: 100,
   },
-  3: {//onwer:2
+  3: {
+    //onwer:2
     address: "address2",
     city: "city2",
     state: "California",
@@ -105,7 +108,8 @@ const spots = {
     description: "Place where web developers are created",
     price: 200,
   },
-  4: {//onwer:2
+  4: {
+    //onwer:2
     address: "address22",
     city: "city22",
     state: "California",
@@ -117,7 +121,8 @@ const spots = {
     price: 150,
   },
 
-  5: {//onwer:3
+  5: {
+    //onwer:3
     address: "address3",
     city: "city3",
     state: "California",

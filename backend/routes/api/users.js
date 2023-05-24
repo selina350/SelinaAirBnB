@@ -7,6 +7,9 @@ const { User, Spot } = require("../../db/models");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
 const router = express.Router();
+const meRouter = require("./me.js")
+
+router.use('/me', meRouter);
 
 const validateSignup = [
   check("email")
@@ -80,14 +83,7 @@ router.post("/", validateSignup, async (req, res) => {
   });
 });
 
-//get all spots by current user
-router.get("/me/spots", requireAuth, async (req, res, next) => {
-  const id = req.user.id;
-  const spots = await Spot.findAll({
-    where: { ownerId: id },
-  });
-  res.json(spots);
-});
+
 
 
 module.exports = router;
