@@ -19,19 +19,11 @@ module.exports = (sequelize, DataTypes) => {
         },
       });
 
-      Spot.belongsToMany(models.User, {
-        through: models.Review,
-        foreignKey: "spotId",
-        otherKey: "userId",
-      });
+
       Spot.hasMany(models.Review, {
         foreignKey: "spotId",
       });
-      Spot.belongsToMany(models.User, {
-        through: models.Booking,
-        foreignKey: "spotId",
-        otherKey: "userId",
-      });
+
       Spot.hasMany(models.Booking, {
         foreignKey: "spotId",
       });
@@ -79,6 +71,18 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Spot",
+      // scopes:{
+      //   previewImage(){
+      //     const {Image} = require('../models');
+      //     return {
+      //       where:{
+      //         preview:true,
+
+      //       },
+      //       include:[{model:Image, as:"SpotImages"}]
+      //     }
+      //   }
+      // }
     }
   );
   return Spot;
