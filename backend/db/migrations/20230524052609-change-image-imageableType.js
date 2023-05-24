@@ -6,17 +6,27 @@ if (process.env.NODE_ENV === "production") {
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.changeColumn("Images", "imageableType", {
-      type: Sequelize.ENUM({
-        values: ["Spot", "Review"],
-      }),
-      allowNull: false,
-    });
+    await queryInterface.changeColumn(
+      "Images",
+      "imageableType",
+      {
+        type: Sequelize.ENUM({
+          values: ["Spot", "Review"],
+        }),
+        allowNull: false,
+      },
+      options
+    );
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.changeColumn("Images", "imageableType", {
-      type: Sequelize.STRING,
-    });
+    await queryInterface.changeColumn(
+      "Images",
+      "imageableType",
+      {
+        type: Sequelize.STRING,
+      },
+      options
+    );
   },
 };
