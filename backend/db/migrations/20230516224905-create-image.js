@@ -21,7 +21,10 @@ module.exports = {
           type: Sequelize.INTEGER,
         },
         imageableType: {
-          type: Sequelize.STRING,
+          type: Sequelize.ENUM({
+            values: ["Spot", "Review"],
+          }),
+          allowNull: false
         },
         preview: {
           type: Sequelize.BOOLEAN,

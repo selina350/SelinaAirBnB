@@ -1174,7 +1174,7 @@ Update and return an existing booking.
 * Require proper authorization: Booking must belong to the current user
 * Request
   * Method: PUT
-  * URL: `/bookings/:id`
+  * URL: `/users/:id/bookings/:id`
   * Headers:
     * Content-Type: application/json
   * Body:
