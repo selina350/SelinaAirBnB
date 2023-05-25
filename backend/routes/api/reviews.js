@@ -40,7 +40,7 @@ router.get("/", async (req, res, next) => {
         },
       ],
     });
-    res.json(reviews);
+    res.json({Reviews:reviews});
   } else {
     res.status(404).json({
       message: "Spot couldn't be found",

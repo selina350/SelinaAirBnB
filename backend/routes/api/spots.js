@@ -7,7 +7,7 @@ const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
 
 const reviewsRouter = require("./reviews.js");
-
+const bookingRouter = require("./bookings.js");
 router.use(
   "/:id/reviews",
   (req, res, next) => {
@@ -15,6 +15,14 @@ router.use(
     next();
   },
   reviewsRouter
+);
+router.use(
+  "/:id/bookings",
+  (req, res, next) => {
+    req.spotId = +req.params.id;
+    next();
+  },
+  bookingRouter
 );
 
 //get all spots
