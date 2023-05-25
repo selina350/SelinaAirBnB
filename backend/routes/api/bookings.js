@@ -6,37 +6,18 @@ const { requireAuth } = require("../../utils/auth");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
 
-// const validateBooking = [
-//   check("review")
-//     .exists({ checkFalsy: true })
-//     .withMessage("Review test is required."),
-//   check("stars")
-//     .exists({ checkFalsy: true })
-//     .isInt({ min: 1, max: 5 })
-//     .withMessage("Stars must be integer from 1 to 5"),
+const validateBooking = [
+  check("startDate")
+    .exists({ checkFalsy: true })
+    .isDate()
+    .withMessage("startDate has to be a date"),
+  check("endDate")
+    .exists({ checkFalsy: true })
+    .isDate()
+    .withMessage("endDate has to be a date"),
 
-//   handleValidationErrors,
-// ];
-
-// const validateConflict = async (req, res, next) => {
-//     const spotId = req.spotId
-//   const conflictedBooking = await Booking.findAll({
-//     where: {
-//       spotId,
-//       startDate: { [Op.lte]: endDate },
-//       endDate: { [Op.gte]: startDate },
-//     },
-//   });
-//   if (conflictedBooking.length !== 0) {
-//     res.status(403).json({
-//       message: "Sorry, this spot is already booked for the specified dates",
-//       errors: {
-//         startDate: "Start date conflicts with an existing booking",
-//         endDate: "End date conflicts with an existing booking",
-//       },
-//     });
-//   }
-// };
+  handleValidationErrors,
+];
 
 //Get all Bookings by a Spot's id
 router.get("/", requireAuth, async (req, res, next) => {
@@ -73,7 +54,7 @@ router.get("/", requireAuth, async (req, res, next) => {
 });
 
 //Create a Booking for a Spot based on the Spot's id
-router.post("/", requireAuth, async (req, res, next) => {
+router.post("/", requireAuth, validateBooking, async (req, res, next) => {
   const spotId = req.spotId;
   const userId = req.user.id;
   const { startDate, endDate } = req.body;
@@ -113,7 +94,7 @@ router.post("/", requireAuth, async (req, res, next) => {
 });
 
 //Edit a booking
-router.put("/:id", requireAuth, async (req, res, next) => {
+router.put("/:id", requireAuth, validateBooking, async (req, res, next) => {
   const userId = req.user.id;
   const { startDate, endDate } = req.body;
   const bookingId = req.params.id;
