@@ -4,7 +4,30 @@ const { Spot, Review, Image, User } = require("../../db/models");
 const { requireAuth } = require("../../utils/auth");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
+const imageRouter = require("./images.js");
 
+router.use(
+  "/:id/images",
+  requireAuth,
+  async (req, res, next) => {
+    req.reviewId = +req.params.id;
+    const ownerId = req.user.id;
+    if (isNaN(req.reviewId)) {
+      return res.status(400).json({ message: "reviewId has to be a number" });
+    }
+
+    const review = await Review.findByPk(req.reviewId);
+
+    if (!review || ownerId !== review.userId) {
+      return res
+        .status(400)
+        .json("Review can not be found or doesn't belong to this user.");
+    }
+
+    next();
+  },
+  imageRouter
+);
 
 const validateReview = [
   check("review")
@@ -75,40 +98,7 @@ router.post("/", requireAuth, validateReview, async (req, res, next) => {
   }
 });
 
-//Add an Image to a Review based on the Review's id
-router.post("/:id/images", requireAuth, async (req, res, next) => {
-  const reviewId = req.params.id;
-  const { url } = req.body;
 
-  if (isNaN(reviewId)) {
-    res.status(400).json("id has to be a number");
-  }
-
-  const review = await Review.findByPk(reviewId, {
-    include: {
-      model: Image,
-      as: "ReviewImages",
-    },
-  });
-
-  if (review) {
-    if (review.ReviewImages.length >= 10) {
-      res
-        .status(403)
-        .json("Maximum number of images for this resource was reached");
-    }
-    const image = await Image.create({
-      url,
-      imageableId: reviewId,
-      imageableType: "Review",
-    });
-    res.json({ id: image.id, url });
-  } else {
-    res.status(404).json({
-      message: "Review can not be found.",
-    });
-  }
-});
 
 //Edit a Review
 router.put("/:id", requireAuth, validateReview, async (req, res, next) => {

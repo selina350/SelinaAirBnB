@@ -42,13 +42,6 @@ app.use(
 const routes = require("./routes");
 app.use(routes);
 
-// // app.use('/', require('./routes/verification'));
-// app.use('/signup', require('./routes/signup'));
-// app.use('/login', require('./routes/login'));
-// // app.use('/users', require('./routes/users'));
-// // app.use('/spots', require('./routes/spots'));
-// // app.use('/reviews', require('./routes/reviews'));
-
 // Catch unhandled requests and forward to error handler.
 app.use((_req, _res, next) => {
   const err = new Error("The requested resource couldn't be found.");
