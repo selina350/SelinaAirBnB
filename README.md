@@ -1,5 +1,5 @@
 # `SelinaAirBnB`
-
+https://selina-airbnb.onrender.com/
 ## Database Schema Design
 
 `<insert database schema design here>`
@@ -50,7 +50,7 @@ Returns the information about the current user that is logged in.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: `/user/summary`
+  * URL: `/session`
   * Body: none
 
 * Successful Response when there is a logged in user
@@ -91,7 +91,7 @@ information.
 * Require Authentication: false
 * Request
   * Method: POST
-  * URL: `/login`
+  * URL: `/session`
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -982,7 +982,7 @@ Return all the bookings that the current user has made.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: `/user/bookings`
+  * URL: `/users/me/bookings`
   * Body: none
 
 * Successful Response
@@ -1174,7 +1174,7 @@ Update and return an existing booking.
 * Require proper authorization: Booking must belong to the current user
 * Request
   * Method: PUT
-  * URL: `/users/:id/bookings/:id`
+  * URL: `/bookings/:id`
   * Headers:
     * Content-Type: application/json
   * Body:
