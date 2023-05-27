@@ -187,38 +187,9 @@ router.get("/", validateQuery, async (req, res, next) => {
     where,
   });
 
-  res.json(allSpots);
+  res.json({Spots:allSpots});
 });
 
-//Add Query Filters to Get All Spots
-router.get("/", validateQuery, async (req, res, next) => {
-  const { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } =
-    req.query;
-  let limit;
-  let offset;
-
-  if (page < 0 || page > 10) {
-    page = 1;
-  }
-  if (size < 0 || size > 20) {
-    size = 20;
-  }
-
-  limit = size;
-  offset = size * (page - 1);
-
-  const querySpots = await Spot.findAll({
-    attributes: ["id", "firstName", "lastName", "leftHanded"],
-    where: {
-      lat: { [Op.gte]: minLat, [Op.lte]: maxLat },
-      lng: { [Op.gte]: minLng, [Op.lte]: maxLng },
-      price: { [Op.gte]: minPrice, [Op.lte]: maxPrice },
-    },
-    limit,
-    offset,
-  });
-  res.json(querySpots);
-});
 
 //Get details of a Spot from an id
 router.get("/:id", async (req, res, next) => {
@@ -247,11 +218,12 @@ router.get("/:id", async (req, res, next) => {
       },
       {
         model: User,
+        as: "Owner",
         attributes: ["id", "firstName", "lastName"],
         required: false,
       },
     ],
-    group: ["Spot.id", "User.id", "SpotImages.id"],
+    group: ["Spot.id", "Owner.id", "SpotImages.id"],
   });
   if (spot) {
     res.json(spot);
@@ -315,14 +287,16 @@ router.post("/", requireAuth, validateSpot, async (req, res, next) => {
 
 //edit a spot
 router.put("/:id", requireAuth, validateSpot, async (req, res, next) => {
-  if (isNaN(req.params.id)) {
+  const spotId =req.params.id
+  if (isNaN(spotId)) {
     res.status(400).json({ message: "id has to be a number" });
   }
+
   const ownerId = parseInt(req.user.id);
   const { address, city, state, country, lat, lng, name, description, price } =
     req.body;
-  const spot = await Spot.findByPk(req.params.id, {
-    where: { ownerId },
+  const spot = await Spot.findOne({
+    where: {id:spotId, ownerId },
   });
 
   if (spot) {
@@ -346,13 +320,14 @@ router.put("/:id", requireAuth, validateSpot, async (req, res, next) => {
 
 //delete spot
 router.delete("/:id", requireAuth, async (req, res, next) => {
-  if (isNaN(req.params.id)) {
+  const spotId = req.params.id
+  if (isNaN(spotId)) {
     res.status(400).json({ message: "id has to be a number" });
   }
   const ownerId = parseInt(req.user.id);
 
-  const spot = await Spot.findByPk(req.params.id, {
-    where: { ownerId },
+  const spot = await Spot.findOne({
+    where: { id: spotId, ownerId },
   });
 
   if (spot) {

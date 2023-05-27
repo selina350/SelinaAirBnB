@@ -63,7 +63,7 @@ router.get("/", async (req, res, next) => {
         },
       ],
     });
-    res.json({Reviews:reviews});
+    res.json({ Reviews: reviews });
   } else {
     res.status(404).json({
       message: "Spot couldn't be found",
@@ -98,8 +98,6 @@ router.post("/", requireAuth, validateReview, async (req, res, next) => {
   }
 });
 
-
-
 //Edit a Review
 router.put("/:id", requireAuth, validateReview, async (req, res, next) => {
   const userId = req.user.id;
@@ -108,7 +106,7 @@ router.put("/:id", requireAuth, validateReview, async (req, res, next) => {
   if (isNaN(reviewId)) {
     res.status(400).json("id has to be a number");
   }
-  const reviewInDb = await Review.findByPk(reviewId);
+  const reviewInDb = await Review.findOne({ where: { id: reviewId, userId } });
   if (reviewInDb) {
     reviewInDb.review = review;
     reviewInDb.stars = stars;
@@ -116,7 +114,7 @@ router.put("/:id", requireAuth, validateReview, async (req, res, next) => {
     res.json(reviewInDb);
   } else {
     res.status(404).json({
-      message: "Review can not be found.",
+      message: "Review can not be found or doesn't belong to the user.",
     });
   }
 });
@@ -124,7 +122,8 @@ router.put("/:id", requireAuth, validateReview, async (req, res, next) => {
 //Delete a Review
 router.delete("/:id", requireAuth, async (req, res, next) => {
   const reviewId = req.params.id;
-  const review = await Review.findByPk(reviewId);
+  const userId = req.user.id;
+  const review = await Review.findOne({ where: { id: reviewId, userId } });
   if (isNaN(reviewId)) {
     res.status(400).json("id has to be a number");
   }
@@ -133,7 +132,7 @@ router.delete("/:id", requireAuth, async (req, res, next) => {
     res.json("Successfully deleted");
   } else {
     res.status(404).json({
-      message: "Review can not be found.",
+      message: "Review can not be found or doesn't belong to the user.",
     });
   }
 });
