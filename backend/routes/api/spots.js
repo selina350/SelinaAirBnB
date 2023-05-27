@@ -44,11 +44,14 @@ router.use(
     }
 
     const spot = await Spot.findByPk(req.spotId);
+    if(ownerId !== spot.ownerId){
+      return res.status(403).json({message: "Forbidden"})
+    }
 
-    if (!spot || ownerId !== spot.ownerId) {
+    if (!spot) {
       return res
         .status(400)
-        .json("Spot can not be found or doesn't belong to this user.");
+        .json({message:"Spot can not be found."});
     }
 
     next();
@@ -162,8 +165,7 @@ router.get("/", validateQuery, async (req, res, next) => {
     //google searched: "sequelize limit after include"
     //found a solution to disable subQuery
     subQuery: false,
-    limit,
-    offset,
+
     attributes: {
       include: [
         [Sequelize.fn("AVG", Sequelize.col("Reviews.stars")), "avgRating"],
@@ -185,9 +187,11 @@ router.get("/", validateQuery, async (req, res, next) => {
       },
     ],
     where,
+    limit,
+    offset
   });
 
-  res.json({Spots:allSpots});
+  res.json({Spots:allSpots, page, size});
 });
 
 
