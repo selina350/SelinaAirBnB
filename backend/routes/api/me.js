@@ -17,6 +17,7 @@ router.get("/reviews", requireAuth, async (req, res, next) => {
     include: [
       {
         model: Spot,
+        attributes: { exclude: ["createdAt", "updatedAt"] },
         include: {
           model: Image,
           as: "SpotImages",
@@ -38,7 +39,7 @@ router.get("/reviews", requireAuth, async (req, res, next) => {
     ],
   });
 
-  res.json(allReviews);
+  res.json({ Reviews: allReviews });
 });
 
 //Get all of the Current User's Bookings
@@ -52,6 +53,9 @@ router.get("/bookings", requireAuth, async (req, res, next) => {
     include: [
       {
         model: Spot,
+        attributes: {
+          exclude: ["createdAt", "updatedAt"],
+        },
         include: {
           model: Image,
           as: "SpotImages",
@@ -63,7 +67,7 @@ router.get("/bookings", requireAuth, async (req, res, next) => {
     ],
   });
 
-  res.json(allBookings);
+  res.json({ Bookings: allBookings });
 });
 
 module.exports = router;

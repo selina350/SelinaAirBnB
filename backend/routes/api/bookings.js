@@ -89,7 +89,7 @@ router.post("/", requireAuth, validateBooking, async (req, res, next) => {
       startDate,
       endDate,
     });
-    res.json(booking);
+    res.json({ booking });
   }
 });
 
@@ -101,7 +101,12 @@ router.put("/:id", requireAuth, validateBooking, async (req, res, next) => {
   if (isNaN(bookingId)) {
     res.status(400).json("booking id has to be a number");
   }
-  const bookingInDb = await Booking.findByPk(bookingId);
+  const bookingInDb = await Booking.findOne({
+    where: {
+      id: bookingId,
+      userId,
+    },
+  });
   if (bookingInDb) {
     const spotId = bookingInDb.spotId;
     const conflictedBooking = await Booking.findAll({
@@ -129,7 +134,7 @@ router.put("/:id", requireAuth, validateBooking, async (req, res, next) => {
     }
   } else {
     res.status(404).json({
-      message: "Booking can not be found.",
+      message: "Booking can not be found or doesn't belong to this user.",
     });
   }
 });

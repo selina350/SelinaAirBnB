@@ -46,8 +46,11 @@ router.post("/", requireAuth, validateImage, async (req, res, next) => {
     preview,
     imageableType,
   });
-
-  res.json({ id: image.id, url: image.url, preview: image.preview });
+  const result = { id: image.id, url: image.url };
+  if (image.imageableType === "Spot") {
+    result.preview = image.preview;
+  }
+  res.json(result);
 });
 
 //delete a Spot or a Review Image
