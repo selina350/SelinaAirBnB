@@ -93,8 +93,9 @@ const validateQuery = [
 
   handleValidationErrors,
 ];
-//get all spots
+//get all spots or current user spots
 router.get("/", validateQuery, async (req, res, next) => {
+  const ownerId = req.ownerId;
   let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } =
     req.query;
   let limit;
@@ -113,7 +114,11 @@ router.get("/", validateQuery, async (req, res, next) => {
   const lat = {};
   const lng = {};
   const price = {};
-  
+
+  if (ownerId) {
+    where.ownerId = ownerId;
+  }
+
   let shouldAddLat;
   if (minLat !== undefined) {
     shouldAddLat = true;
