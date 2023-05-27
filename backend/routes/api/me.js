@@ -6,15 +6,6 @@ const { requireAuth } = require("../../utils/auth");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
 
-//get all spots by current user
-router.get("/spots", requireAuth, async (req, res, next) => {
-  const id = req.user.id;
-  const spots = await Spot.findAll({
-    where: { ownerId: id },
-  });
-  res.json(spots);
-});
-
 //Get all Reviews of the Current User
 router.get("/reviews", requireAuth, async (req, res, next) => {
   const userId = req.user.id;

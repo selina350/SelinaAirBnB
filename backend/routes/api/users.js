@@ -7,9 +7,20 @@ const { User, Spot } = require("../../db/models");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
 const router = express.Router();
-const meRouter = require("./me.js")
+const meRouter = require("./me.js");
+const spotRouter = require("./spots");
 
-router.use('/me', meRouter);
+router.use(
+  "/me/spots",
+  requireAuth,
+  (req, res, next) => {
+    req.ownerId = req.user.id;
+    next();
+  },
+  spotRouter
+);
+
+router.use("/me", meRouter);
 
 const validateSignup = [
   check("email")
@@ -82,8 +93,5 @@ router.post("/", validateSignup, async (req, res) => {
     user: safeUser,
   });
 });
-
-
-
 
 module.exports = router;
