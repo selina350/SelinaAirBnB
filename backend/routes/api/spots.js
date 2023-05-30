@@ -44,15 +44,16 @@ router.use(
     }
 
     const spot = await Spot.findByPk(req.spotId);
-    if(ownerId !== spot.ownerId){
-      return res.status(403).json({message: "Forbidden"})
-    }
-
     if (!spot) {
       return res
         .status(400)
         .json({message:"Spot can not be found."});
     }
+    if(ownerId !== spot.ownerId){
+      return res.status(403).json({message: "Forbidden"})
+    }
+
+
 
     next();
   },
