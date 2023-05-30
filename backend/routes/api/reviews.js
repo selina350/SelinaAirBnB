@@ -17,13 +17,13 @@ router.use(
     }
 
     const review = await Review.findByPk(req.reviewId);
-
-    if (ownerId !== review.userId) {
-      return res.status(403).json("Forbidden.");
-    }
     if (!review) {
       return res.status(400).json("Review can not be found.");
     }
+    if (ownerId !== review.userId) {
+      return res.status(403).json("Forbidden.");
+    }
+
 
     next();
   },
