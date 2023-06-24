@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+
 import * as sessionActions from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, NavLink } from "react-router-dom";
 import "./LoginForm.css";
+
 function LoginFormPage() {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
@@ -48,6 +50,8 @@ function LoginFormPage() {
         {errors.credential && <p>{errors.credential}</p>}
         <button type="submit">Log In</button>
       </form>
+      <h3>Doesn't have an account?</h3>
+      <NavLink to={'/signup'}>Sign Up</NavLink>
     </>
   );
 }
