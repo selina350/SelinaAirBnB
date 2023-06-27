@@ -11,34 +11,37 @@ function Navigation(isLoaded) {
   const sessionUser = useSelector((state) => state.session.user);
   const isLoggedIn = Object.keys(sessionUser).length;
 
-
   let sessionLinks;
   if (isLoaded && isLoggedIn) {
     sessionLinks = (
-      <li>
+      <div className="NavBar-right-container">
         <ProfileButton user={sessionUser} />
-
-      </li>
+      </div>
     );
   } else {
     sessionLinks = (
-      <li>
-        <NavLink to="/login">Log In</NavLink>
-        <NavLink to="/signup">Sign Up</NavLink>
-      </li>
+      <div className="NavBar-right-container">
+        <NavLink to="/login">
+          <button className="primary">Log In</button>
+        </NavLink>
+
+        <NavLink to="/signup">
+          <button className="accent">Sign Up</button>
+        </NavLink>
+      </div>
     );
   }
 
   return (
-    <ul>
-      <li>
+    <div className="NavBar">
+      <div className="NavBar-left-container">
         <NavLink exact to="/">
-        <i className="fa-solid fa-house"></i>
-
+          <i className="fa-solid fa-house" />
         </NavLink>
-      </li>
-      {isLoaded && sessionLinks}
-    </ul>
+      </div>
+      <div className="NavBar-mid-container"></div>
+      {sessionLinks}
+    </div>
   );
 }
 

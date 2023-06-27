@@ -1,6 +1,17 @@
-.profile-dropdown {
+.NavBar {
+  height: 70px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  border-bottom: #cccccc 2px solid;
 }
 
-.profile-dropdown.hidden {
-  display: none;
+.NavBar-mid-container {
+  flex-grow: 1;
 }
+
+.NavBar-right-container {
+  display: flex;
+  gap: 8px;
+}
+

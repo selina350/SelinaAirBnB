@@ -1,1 +1,49 @@
 /* TODO Add site wide styles */
+body {
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+  font-size: 14pt;
+  font-weight: 400;
+}
+
+h1 {
+  font-size: 24pt;
+  font-weight: bold;
+  margin: 16px;
+}
+
+h3 {
+  font-size: 18pt;
+  font-weight: bold;
+  margin: 0;
+}
+
+a {
+  color: #00525e;
+}
+
+button {
+  background-color: white;
+  color: black;
+  border: #cccccc 1px solid;
+  border-radius: 4px;
+  padding: 3px;
+  width: 100%;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+button.primary {
+  background-color: #ff5a5f;
+  color: white;
+  border: black 1px solid;
+}
+
+button.accent {
+  background-color: #999999;
+  color: white;
+  border: black 1px solid;
+}
