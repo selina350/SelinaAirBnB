@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { deleteSpot } from "../../store/spots";
 import Modal from "../Modal";
@@ -19,7 +19,7 @@ function SpotSummary({ spot, showAction }) {
     <div className="spot-summary">
       <Link to={`/spots/${spot.id}`}>
         <div>
-          <img src={spot.previewImage} />
+          <img src={spot.previewImage} alt="view"/>
           <div className="spot-summary-text">
             <div className="spot-summary-text-first-row">
               <div>
