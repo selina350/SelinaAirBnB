@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import * as sessionActions from "../../store/session";
+import {Link} from "react-router-dom"
 import "./ProfileButton.css";
 
 function ProfileButton({ user }) {
@@ -43,6 +44,7 @@ function ProfileButton({ user }) {
             {user.firstName} {user.lastName}
           </li>
           <li>{user.email}</li>
+          <Link to="/users/me/spots" onClick={()=>(setShowMenu(false))}>Manage Spots</Link>
           <li>
             <button className="accent" onClick={logout}>
               Log Out

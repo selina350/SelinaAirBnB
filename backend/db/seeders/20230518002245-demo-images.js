@@ -7,19 +7,37 @@ if (process.env.NODE_ENV === "production") {
 }
 const demoImages = [
   {
-    url: "image url",
+    url: "https://a0.muscache.com/im/pictures/c36ddec0-9a59-4174-a615-ea79820e601e.jpg?im_w=720",
     imageableId: 1,
     imageableType: "Spot",
     preview: true,
   },
   {
-    url: "image url",
+    url: "https://a0.muscache.com/im/pictures/5a594695-1062-4faf-98f1-ca00707d1899.jpg?im_w=720",
     imageableId: 1,
     imageableType: "Spot",
     preview: false,
   },
   {
-    url: "image url",
+    url: "https://a0.muscache.com/im/pictures/62a94e3c-a0d8-4e6a-a093-44d5ec58cf4b.jpg?im_w=720",
+    imageableId: 1,
+    imageableType: "Spot",
+    preview: false,
+  },
+  {
+    url: "https://a0.muscache.com/im/pictures/96333af6-2bca-4d94-a516-d517ca0e5d63.jpg?im_w=1200",
+    imageableId: 1,
+    imageableType: "Spot",
+    preview: false,
+  },
+  {
+    url: "https://a0.muscache.com/im/pictures/ebfc63d1-7dea-419e-9cf3-0030231ba271.jpg?im_w=720",
+    imageableId: 1,
+    imageableType: "Spot",
+    preview: false,
+  },
+  {
+    url: "https://a0.muscache.com/im/pictures/137ebd51-b6ae-4f2b-835e-2bc6caaf908e.jpg?im_w=720",
     imageableId: 1,
     imageableType: "Review",
     preview: false,

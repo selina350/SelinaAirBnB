@@ -1,0 +1,43 @@
+.spot-detail {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.spot-detail-img-container {
+  display: flex;
+  gap: 8px;
+}
+
+.spot-detail-img-container img {
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+.preview-img {
+  width: 50%;
+  line-height: 0;
+  overflow: hidden;
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+}
+
+.preview-img img {
+  width: 100%;
+}
+
+.other-img {
+  width: 50%;
+  line-height: 0;
+  overflow: hidden;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.other-img img {
+  width: calc(50% - 4px);
+}

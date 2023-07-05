@@ -4,6 +4,7 @@ import * as sessionActions from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, NavLink } from "react-router-dom";
 import ProfileButton from "./ProfileButton";
+
 import "./Navigation.css";
 
 function Navigation(isLoaded) {
@@ -15,7 +16,11 @@ function Navigation(isLoaded) {
   if (isLoaded && isLoggedIn) {
     sessionLinks = (
       <div className="NavBar-right-container">
+        <NavLink to="/spots/create">
+          <button >Create a New Spot</button>
+        </NavLink>
         <ProfileButton user={sessionUser} />
+
       </div>
     );
   } else {

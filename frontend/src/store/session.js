@@ -53,9 +53,7 @@ export const restoreUser = () => async (dispatch) => {
     return data.user;
   };
 
-const initialState = {
-  user: {},
-};
+
 
 export const logOutUser = ()=>async(dispatch)=>{
     const url = `/api/session`;
@@ -65,6 +63,10 @@ export const logOutUser = ()=>async(dispatch)=>{
     dispatch(logOut(data.user));
     return data.user;
 }
+
+const initialState = {
+  user: {},
+};
 
 const session = (state = initialState, action) => {
   let newState = { ...state };

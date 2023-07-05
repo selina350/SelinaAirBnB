@@ -1,0 +1,24 @@
+.spot-summary img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+.spot-summary a {
+  text-decoration: none;
+  color: black;
+}
+
+.spot-summary-text-first-row {
+  display: flex;
+}
+
+.spot-summary-rate {
+  flex-grow: 1;
+  text-align: end;
+}
+
+.spot-summary-text {
+  padding-bottom: 20px;
+}
