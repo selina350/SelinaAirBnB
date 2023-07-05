@@ -1,0 +1,28 @@
+.Profile-container {
+  position: relative;
+}
+
+.Profile-dropdown-container {
+  position: absolute;
+  top: 14px;
+  left: 26px;
+}
+
+.profile-dropdown {
+  width: fit-content;
+  border: #cccccc 2px solid;
+  margin-left: -100%;
+  background-color: white;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.profile-dropdown li {
+  list-style: none;
+}
+
+.profile-dropdown.hidden {
+  display: none;
+}

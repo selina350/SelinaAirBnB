@@ -1,0 +1,30 @@
+.spots-list {
+  padding: 16px;
+}
+
+.spots-list-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.spots-list-spot {
+  padding: 16px;
+}
+
+@media screen and (min-width: 320px) {
+  .spots-list-spot {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .spots-list-spot {
+    width: calc(100% * (1 / 2));
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .spots-list-spot {
+    width: calc(100% * (1 / 4));
+  }
+}

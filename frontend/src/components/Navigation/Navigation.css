@@ -1,0 +1,17 @@
+.NavBar {
+  height: 70px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  border-bottom: #cccccc 2px solid;
+}
+
+.NavBar-mid-container {
+  flex-grow: 1;
+}
+
+.NavBar-right-container {
+  display: flex;
+  gap: 8px;
+}
+
