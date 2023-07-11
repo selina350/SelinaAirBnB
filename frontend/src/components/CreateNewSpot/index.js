@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 
 import * as spotsAction from "../../store/spots";
-import { useDispatch, useSelector } from "react-redux";
-import { Redirect, NavLink, useHistory, useParams } from "react-router-dom";
+import { useDispatch} from "react-redux";
+import {useHistory} from "react-router-dom";
 
 import "./CreateNewSpot.css";
 
@@ -65,7 +65,7 @@ function CreateNewSpot({ spot = {} }) {
     if (previewImg === undefined || previewImg.length === 0) {
       errors.previewImg = "PreviewImg is required.";
     }
-    imageURLs.forEach((imageUrl) => {
+    images.forEach((imageUrl) => {
       if (
         imageUrl.endsWith(".png") ||
         imageUrl.endsWith(".jpg") ||
@@ -95,7 +95,7 @@ function CreateNewSpot({ spot = {} }) {
     name,
     price,
     previewImg,
-    ...imageURLs,
+    images,
 
     // img1,
     // img2,

@@ -41,7 +41,7 @@ export const getUserSpots = () => async (dispatch) => {
 //create spot
 export const createSpot = (payload) => async (dispatch) => {
   const url = `/api/spots`;
-
+  
   const response = await csrfFetch(url, {
     method: "POST",
     body: JSON.stringify(payload),
