@@ -10,6 +10,7 @@ import CreateNewSpot from "./components/CreateNewSpot";
 import SpotDetail from "./components/SpotDetail";
 import ManageSpots from "./components/ManageSpots";
 import EditSpot from "./components/EditSpot";
+
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -23,7 +24,6 @@ function App() {
         <Navigation isLoaded={isLoaded} />
 
         <Switch>
-
         <Route exact path="/">
             <SpotList />
           </Route>
@@ -41,10 +41,12 @@ function App() {
           </Route>
           <Route path="/spots/:id">
             <SpotDetail />
+
           </Route>
           <Route path="/users/me/spots">
             <ManageSpots />
           </Route>
+
         </Switch>
       </div>
     )

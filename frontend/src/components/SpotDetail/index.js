@@ -4,9 +4,12 @@ import { getOneSpot } from "../../store/spots";
 
 import { useParams } from "react-router-dom";
 import "./SpotDetail.css";
+import ReviewList from "../ReviewList";
 function SpotDetail() {
   const { id } = useParams();
   const spot = useSelector((state) => state.spots.spots[id]);
+  const reviews = useSelector((state) => state.reviews.reviews);
+  const numOfReviews = Object.values(reviews).length;
   const [isLoaded, setIsLoaded] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -51,10 +54,17 @@ function SpotDetail() {
         </div>
         <div>
           <div>${spot.price}</div>
-          <div>{spot.avgRating}</div>
-          {spot.avgRating === null ? <div>New</div> : null}
+          {spot.avgRating && (
+            <div>
+              <i className="fa-solid fa-star"></i> {spot.avgRating} {"• "}
+              {numOfReviews}
+              {numOfReviews > 1 ? " Reviews" : " Review"}
+            </div>
+          )}
+          {spot.avgRating === null ? <div><i className="fa-solid fa-star"></i> New</div> : null}
           <button className="primary">Reserve</button>
         </div>
+        <ReviewList />
       </div>
     );
   } else {

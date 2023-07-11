@@ -15,8 +15,8 @@ function EditSpot() {
   }, [dispatch]);
   return (
     <div>
-      <div>{isLoaded && <CreateNewSpot spot={spot} />}</div>
-      <div>{!isLoaded && "isLoading"}</div>
+      {isLoaded && <CreateNewSpot spot={spot} />}
+      {!isLoaded && "isLoading"}
     </div>
   );
 }
