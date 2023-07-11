@@ -18,10 +18,13 @@ function CreateNewSpot({ spot = {} }) {
   const [description, setDescription] = useState(spot.description);
   const [name, setName] = useState(spot.name);
   const [price, setPrice] = useState(spot.price);
+  const [previewImg, setPreviewImg] = useState(null);
+
   let imageURLs = [];
   let previewImage = {};
   if (spot.SpotImages) {
     previewImage = spot.SpotImages.find((image) => image.preview);
+    setPreviewImg(previewImage)
     spot.SpotImages.forEach((image, i) => {
       if (!image.preview) {
         imageURLs.push(image.url);
@@ -29,7 +32,7 @@ function CreateNewSpot({ spot = {} }) {
     });
   }
 
-  const [previewImg, setPreviewImg] = useState(previewImage.url);
+
   const [images, setImages] = useState(imageURLs);
   // const [img1, setImg1] = useState(imageURLs[0]);
   // const [img2, setImg2] = useState(imageURLs[1]);
@@ -62,7 +65,7 @@ function CreateNewSpot({ spot = {} }) {
     if (price === undefined || price.length === 0) {
       errors.price = "Price is required.";
     }
-    if (previewImg === undefined || previewImg.length === 0) {
+    if (previewImg === undefined) {
       errors.previewImg = "PreviewImg is required.";
     }
     images.forEach((imageUrl) => {
@@ -116,8 +119,7 @@ function CreateNewSpot({ spot = {} }) {
       description,
       name,
       price,
-      previewImg,
-      ...imageURLs,
+
       // img1,
       // img2,
       // img3,
@@ -126,6 +128,7 @@ function CreateNewSpot({ spot = {} }) {
     if (Object.values(validationErrors).length > 0) {
       return;
     }
+    previewImage = {preview:true, url:previewImg}
     if (isEditing) {
       dispatch(spotsAction.editSpot(spot.id, payload))
         .then(() => history.push(`/spots/${spot.id}`))
@@ -135,7 +138,7 @@ function CreateNewSpot({ spot = {} }) {
             setValidationErrors(data.validationErrors);
         });
     } else {
-      dispatch(spotsAction.createSpot(payload))
+      dispatch(spotsAction.createSpot(payload, previewImage))
         .then((id) => history.push(`/spots/${id}`))
         .catch(async (res) => {
           const data = await res.json();
