@@ -13,7 +13,9 @@ function SpotSummary({ spot, showAction }) {
   };
   const handleDelete = (e) => {
     const id = spot.id;
+
     dispatch(deleteSpot(id));
+    setConfirmModalOpen(false)
   };
   return (
     <div className="spot-summary">
