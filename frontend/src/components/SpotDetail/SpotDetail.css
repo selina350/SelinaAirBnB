@@ -14,6 +14,22 @@
   aspect-ratio: 1 / 1;
   object-fit: cover;
 }
+.spot-detail-info-container {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  flex-grow: 1;
+}
+.spot-detail-description {
+  
+  flex-grow: 1;
+}
+.spot-detail-reservation {
+  border:2px solid black;
+  border-radius: 12px;
+  padding: 12px;
+  flex-grow: 1;
+}
 
 .preview-img {
   width: 50%;

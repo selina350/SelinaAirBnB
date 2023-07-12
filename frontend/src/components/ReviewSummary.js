@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteReview } from "../store/reviews";
-
+import Modal from "./Modal";
+import "./ReviewSummary.css"
 function ReviewSummary({ review, showAction }) {
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
   const reviewId = review.id;
   const spotId = review.spotId;
   const userId = useSelector((state) => state.session.user.id); //loggedInUser
-  const ownerId = useSelector((state) => state.spots.spots[spotId].ownerId); //spotOwner
   const date = new Date(review.updatedAt);
   const year = date.getFullYear();
 
@@ -30,6 +31,7 @@ function ReviewSummary({ review, showAction }) {
   const dispatch = useDispatch();
   const handleDelete = () => {
     dispatch(deleteReview(spotId, reviewId));
+    setConfirmModalOpen(false)
   };
 
   return (
@@ -41,7 +43,22 @@ function ReviewSummary({ review, showAction }) {
       </div>
       <div className="review-review">{review.review}</div>
       {userId === review.userId && (
-        <button onClick={handleDelete}>Delete</button>
+        <button onClick={() => setConfirmModalOpen(true)}>Delete</button>
+      )}
+
+      {confirmModalOpen && (
+        <Modal title="Confirm Delete">
+          <div>
+            <h3>Are you sure to delete this review? </h3>
+            <button onClick={handleDelete}>Yes</button>
+            <button
+              className="primary"
+              onClick={() => setConfirmModalOpen(false)}
+            >
+              No
+            </button>
+          </div>
+        </Modal>
       )}
     </div>
   );

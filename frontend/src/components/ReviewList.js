@@ -5,9 +5,12 @@ import { useParams } from "react-router-dom";
 import * as reviewAction from "../store/reviews";
 import * as spotAction from "../store/spots";
 import Modal from "./Modal";
+import "./ReviewList.css";
 function ReviewList() {
   const { id } = useParams();
+  const spot = useSelector((state) => state.spots.spots[id]);
   const allReviews = useSelector((state) => state.reviews.reviews);
+  const numOfReviews = Object.values(allReviews).length;
   const userId = useSelector((state) => state.session.user.id); //loggedInUser
   const ownerId = useSelector((state) => state.spots.spots[id].ownerId); //spotOwner
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
@@ -73,21 +76,34 @@ function ReviewList() {
 
   if (isLoaded) {
     return (
-      <div className="reviews-list">
+      <div className="reviews-list-container">
+        <hr />
+        {spot.avgRating && (
+          <div>
+            <i className="review fa-solid fa-star "></i> {spot.avgRating} {"• "}
+            {numOfReviews}
+            {numOfReviews > 1 ? " Reviews" : " Review"}
+          </div>
+        )}
+        {spot.avgRating === null ? (
+          <div>
+            <i className="fa-solid fa-star"></i> New
+          </div>
+        ) : null}
         {!review && userId && userId !== ownerId && (
           <button onClick={handlePost}>Post Your Review</button>
         )}
-        <div className="reviews-list-container">
+        <div className="reviews-list">
           <div>
-            {Object.values(allReviews).length === 0 &&
+            {userId &&
+              Object.values(allReviews).length === 0 &&
+              userId !== ownerId &&
               "Be the first one to leave a post!"}
           </div>
           <div>
             {Object.values(allReviews).map((review) => (
               <div className="reviews-list-spot">
-                <div>
-                  <ReviewSummary review={review} />
-                </div>
+                <ReviewSummary review={review} />
               </div>
             ))}
           </div>

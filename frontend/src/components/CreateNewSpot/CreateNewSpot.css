@@ -1,0 +1,10 @@
+.error {
+  color: red;
+}
+.spot-form {
+  display: flex;
+  justify-content: center;
+}
+.spot-form-container {
+  max-width: 500px;
+}

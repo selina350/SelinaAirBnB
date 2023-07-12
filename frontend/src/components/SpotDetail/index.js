@@ -16,7 +16,7 @@ function SpotDetail() {
     dispatch(getOneSpot(id)).then(() => {
       setIsLoaded(true);
     });
-  }, [dispatch]);
+  }, [dispatch, id]);
 
   if (isLoaded) {
     let previewImage = spot.SpotImages.find((img) => img.preview);
@@ -30,40 +30,39 @@ function SpotDetail() {
 
         <div className="spot-detail-img-container">
           <div className="preview-img">
-            <img
-              src={previewImage && previewImage.url}
-              // src="https://a0.muscache.com/im/pictures/c36ddec0-9a59-4174-a615-ea79820e601e.jpg?im_w=720"
-            />
+            <img src={previewImage && previewImage.url} alt="previewImage" />
           </div>
           <div className="other-img">
             {otherImages.map((img) => {
-              return (
-                <img
-                  src={img.url}
-                  // src="https://a0.muscache.com/im/pictures/prohost-api/Hosting-621011150851342342/original/d556f698-e98b-4f71-b7a3-4a2d66eb04d4.jpeg?im_w=720"
-                />
-              );
+              return <img src={img.url} alt="otherImage" />;
             })}
           </div>
         </div>
-        <div>
-          <div>
-            Hosted by {spot.Owner.firstName} {spot.Owner.lastName}
-          </div>
-          <div>{spot.description}</div>
-        </div>
-        <div>
-          <div>${spot.price}</div>
-          {spot.avgRating && (
+        <div className="spot-detail-info-container">
+          <div className="spot-detail-description">
             <div>
-              <i className="fa-solid fa-star"></i> {spot.avgRating} {"• "}
-              {numOfReviews}
-              {numOfReviews > 1 ? " Reviews" : " Review"}
+              Hosted by {spot.Owner.firstName} {spot.Owner.lastName}
             </div>
-          )}
-          {spot.avgRating === null ? <div><i className="fa-solid fa-star"></i> New</div> : null}
-          <button className="primary">Reserve</button>
+            <div>{spot.description}</div>
+          </div>
+          <div className="spot-detail-reservation">
+            <div>${spot.price}</div>
+            {spot.avgRating && (
+              <div>
+                <i className="fa-solid fa-star"></i> {spot.avgRating} {"• "}
+                {numOfReviews}
+                {numOfReviews > 1 ? " Reviews" : " Review"}
+              </div>
+            )}
+            {spot.avgRating === null ? (
+              <div>
+                <i className="review fa-solid fa-star"></i> New
+              </div>
+            ) : null}
+            <button className="primary">Reserve</button>
+          </div>
         </div>
+
         <ReviewList />
       </div>
     );

@@ -10,7 +10,7 @@ import CreateNewSpot from "./components/CreateNewSpot";
 import SpotDetail from "./components/SpotDetail";
 import ManageSpots from "./components/ManageSpots";
 import EditSpot from "./components/EditSpot";
-
+import Footer from "./components/Footer"
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -48,6 +48,7 @@ function App() {
           </Route>
 
         </Switch>
+        <Footer />
       </div>
     )
   );

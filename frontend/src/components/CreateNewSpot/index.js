@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 
 import * as spotsAction from "../../store/spots";
-import { useDispatch} from "react-redux";
-import {useHistory} from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 import "./CreateNewSpot.css";
 
@@ -18,20 +18,21 @@ function CreateNewSpot({ spot = {} }) {
   const [description, setDescription] = useState(spot.description);
   const [name, setName] = useState(spot.name);
   const [price, setPrice] = useState(spot.price);
-  const [previewImg, setPreviewImg] = useState(null);
 
   let imageURLs = [];
-  let previewImage = {};
+  let previewImageURL;
   if (spot.SpotImages) {
-    previewImage = spot.SpotImages.find((image) => image.preview);
-    setPreviewImg(previewImage)
+    const previewImageObj = spot.SpotImages.find((image) => image.preview);
+    if (previewImageObj) {
+      previewImageURL = previewImageObj.url;
+    }
     spot.SpotImages.forEach((image, i) => {
       if (!image.preview) {
         imageURLs.push(image.url);
       }
     });
   }
-
+  const [previewImg, setPreviewImg] = useState(previewImageURL);
 
   const [images, setImages] = useState(imageURLs);
   // const [img1, setImg1] = useState(imageURLs[0]);
@@ -65,14 +66,16 @@ function CreateNewSpot({ spot = {} }) {
     if (price === undefined || price.length === 0) {
       errors.price = "Price is required.";
     }
-    if (previewImg === undefined) {
+    if (previewImg === undefined || previewImg.length === 0) {
       errors.previewImg = "PreviewImg is required.";
     }
     images.forEach((imageUrl) => {
       if (
-        imageUrl.endsWith(".png") ||
-        imageUrl.endsWith(".jpg") ||
-        imageUrl.endsWith(".jpeg")
+        !(
+          imageUrl.endsWith(".png") ||
+          imageUrl.endsWith(".jpg") ||
+          imageUrl.endsWith(".jpeg")
+        )
       ) {
         errors.imageUrl = "Image url must ends  in .png, jpg, or .jpeg";
       }
@@ -128,7 +131,6 @@ function CreateNewSpot({ spot = {} }) {
     if (Object.values(validationErrors).length > 0) {
       return;
     }
-    previewImage = {preview:true, url:previewImg}
     if (isEditing) {
       dispatch(spotsAction.editSpot(spot.id, payload))
         .then(() => history.push(`/spots/${spot.id}`))
@@ -138,7 +140,7 @@ function CreateNewSpot({ spot = {} }) {
             setValidationErrors(data.validationErrors);
         });
     } else {
-      dispatch(spotsAction.createSpot(payload, previewImage))
+      dispatch(spotsAction.createSpot(payload, previewImg))
         .then((id) => history.push(`/spots/${id}`))
         .catch(async (res) => {
           const data = await res.json();
@@ -149,127 +151,142 @@ function CreateNewSpot({ spot = {} }) {
   };
 
   return (
-    <>
-      <h1>{isEditing ? "Update Spot" : " Create Spot"} </h1>
-      <form className="Login-form" onSubmit={handleSubmit}>
-        <lable>Country </lable>
-        <input
-          placeholder="Country"
-          type="text"
-          value={country}
-          onChange={(e) => setCountry(e.target.value)}
-          required
-        />
-        {hasSubmitted && validationErrors.country}
-        <lable>Street Address </lable>
-        <input
-          placeholder="Street Address"
-          type="text"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-          required
-        />
-        {hasSubmitted && validationErrors.address}
-        <lable>City </lable>
-        <input
-          placeholder="City"
-          type="text"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-          required
-        />
-        {hasSubmitted && validationErrors.city}
-        <lable>State </lable>
-        <input
-          placeholder="State"
-          type="text"
-          value={state}
-          onChange={(e) => setState(e.target.value)}
-          required
-        />
-        {hasSubmitted && validationErrors.state}
-        <lable>Latitude </lable>
-        <input
-          placeholder="Latitude"
-          type="text"
-          value={lat}
-          onChange={(e) => setLat(e.target.value)}
-        />
-        <lable>Longitude </lable>
-        <input
-          placeholder="Longitude"
-          type="text"
-          value={lng}
-          onChange={(e) => setLng(e.target.value)}
-        />
+    <div className="spot-form">
+      <div className="spot-form-container">
+        <h1>{isEditing ? "Update Spot" : " Create Spot"} </h1>
+        <h3>Where is your place located?</h3>
+        Guests will only get your exact address once they booked a reservation.
+        <form className="Login-form" onSubmit={handleSubmit}>
+          <lable>Country </lable>
+          <input
+            placeholder="Country"
+            type="text"
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+            required
+          />
+          <div className="error">
+            {hasSubmitted && validationErrors.country}
+          </div>
+          <lable>Street Address </lable>
+          <input
+            placeholder="Street Address"
+            type="text"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            required
+          />
+          <div className="error">
+            {hasSubmitted && validationErrors.address}
+          </div>
+          <lable>City </lable>
+          <input
+            placeholder="City"
+            type="text"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            required
+          />
+          <div className="error">{hasSubmitted && validationErrors.city}</div>
+          <lable>State </lable>
+          <input
+            placeholder="State"
+            type="text"
+            value={state}
+            onChange={(e) => setState(e.target.value)}
+            required
+          />
+          <div className="error">{hasSubmitted && validationErrors.state}</div>
+          <lable>Latitude </lable>
+          <input
+            placeholder="Latitude"
+            type="text"
+            value={lat}
+            onChange={(e) => setLat(e.target.value)}
+          />
+          <lable>Longitude </lable>
+          <input
+            placeholder="Longitude"
+            type="text"
+            value={lng}
+            onChange={(e) => setLng(e.target.value)}
+          />
+          <hr />
+          <h3>Describe your place to guests</h3>
 
-        <lable> Describe your place to guests </lable>
-        <p>
-          Mention the best features of your space, any specific amentities like
-          fast wifi or parking, and what you love about the neighborhood.
-        </p>
-        <input
-          placeholder="Description"
-          type="text"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          required
-        />
-        {hasSubmitted && validationErrors.description}
-        <lable> Create a title for yoru spot </lable>
-        <p>
-          Catch guest's attention with a spot title that highlights what makes
-          yoru place special.
-        </p>
-        <input
-          placeholder="Name of your spot"
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-        {hasSubmitted && validationErrors.name}
-        <lable> Set a base price for your spot </lable>
-        <p>
-          Competitive pricing can help your listing stand out and rank higher in
-          search results.
-        </p>
-        <input
-          placeholder="Price per night(USD)"
-          type="text"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-          required
-        />
-        {hasSubmitted && validationErrors.price}
-        <lable> Liven up your spot with photos </lable>
-        <p>Submit a link to at least one photo to publish your spot.</p>
-        <input
-          placeholder="Preview Image URL"
-          type="text"
-          value={previewImg}
-          onChange={(e) => setPreviewImg(e.target.value)}
-          required
-        />
-        {hasSubmitted && validationErrors.previewImg}
-        <div className="other-img">
-          {images.map((imageUrl, i) => {
-            return (
-              <div>
-                <input
-                  placeholder="Image URL"
-                  type="text"
-                  value={imageUrl}
-                  onChange={(e) => setImages(e.target.value[i])}
-                  required
-                />
-                {hasSubmitted && validationErrors.imageUrl}
-              </div>
-            );
-          })}
-        </div>
+            <div>Mention the best features of your space, any specific amentities
+            like fast wifi or parking, and what you love about the neighborhood.</div>
 
-        {/* <input
+          <textarea
+            placeholder="Description"
+            type="text"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            required
+          />
+          <div className="error">
+            {hasSubmitted && validationErrors.description}
+          </div>
+          <hr />
+          <h3> Create a title for your spot </h3>
+          <div>
+            Catch guest's attention with a spot title that highlights what makes
+            yoru place special.
+          </div>
+          <input
+            placeholder="Name of your spot"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+          <div className="error">{hasSubmitted && validationErrors.name}</div>
+          <hr />
+          <h3> Set a base price for your spot </h3>
+          <div>
+            Competitive pricing can help your listing stand out and rank higher
+            in search results.
+          </div>
+          <input
+            placeholder="Price per night(USD)"
+            type="text"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            required
+          />
+          <div className="error">{hasSubmitted && validationErrors.price}</div>
+          <hr />
+          <h3> Liven up your spot with photos </h3>
+          <div>Submit a link to at least one photo to publish your spot.</div>
+          <input
+            placeholder="Preview Image URL"
+            type="text"
+            value={previewImg}
+            onChange={(e) => setPreviewImg(e.target.value)}
+            required
+          />
+          <div className="error">
+            {hasSubmitted && validationErrors.previewImg}
+          </div>
+          <div className="other-img">
+            {images.map((imageUrl, i) => {
+              return (
+                <div>
+                  <input
+                    placeholder="Image URL"
+                    type="text"
+                    value={imageUrl}
+                    onChange={(e) => setImages(e.target.value[i])}
+                    required
+                  />
+                  {hasSubmitted && validationErrors.imageUrl}
+                </div>
+              );
+            })}
+          </div>
+          <hr />
+
+          {/* <input
           placeholder="Image URL"
           type="text"
           value={img1}
@@ -298,12 +315,12 @@ function CreateNewSpot({ spot = {} }) {
           onChange={(e) => setImg4(e.target.value)}
           required
         /> */}
-      </form>
-
-      <button className="primary" onClick={handleSubmit}>
-        {isEditing ? "Update Spot" : "Create Spot"}
-      </button>
-    </>
+        </form>
+        <button className="primary" onClick={handleSubmit}>
+          {isEditing ? "Update Spot" : "Create Spot"}
+        </button>
+      </div>
+    </div>
   );
 }
 

@@ -39,7 +39,7 @@ export const getUserSpots = () => async (dispatch) => {
 };
 
 //create spot
-export const createSpot = (payload,urlPayload) => async (dispatch) => {
+export const createSpot = (payload,previewImgUrl) => async (dispatch) => {
   const spotUrl = `/api/spots`;
 
   const response = await csrfFetch(spotUrl, {
@@ -60,7 +60,7 @@ export const createSpot = (payload,urlPayload) => async (dispatch) => {
   // }))
   const imageResponse = await csrfFetch(imageUrl, {
     method: "POST",
-    body: JSON.stringify(urlPayload),
+    body: JSON.stringify({preview:true, url: previewImgUrl}),
   });
   console.log(imageResponse)
   // const previewImageData = await imageResponse.json();
