@@ -39,19 +39,36 @@ export const getUserSpots = () => async (dispatch) => {
 };
 
 //create spot
-export const createSpot = (payload) => async (dispatch) => {
-  const url = `/api/spots`;
-  
-  const response = await csrfFetch(url, {
+export const createSpot = (payload,previewImgUrl) => async (dispatch) => {
+  const spotUrl = `/api/spots`;
+
+  const response = await csrfFetch(spotUrl, {
     method: "POST",
     body: JSON.stringify(payload),
   });
   const spotData = await response.json();
   const id = spotData.id;
 
+  const imageUrl = `/api/spots/${id}/images`
+  // const imageResponse = await Promise.all(imageUrlArr.map( async imageUrl=>{
+  //   await csrfFetch(imageUrl, {
+  //     method: "POST",
+  //     body: JSON.stringify(imageUrl),
+  //   });
+
+  //   const previewImageData = await response.json();
+  // }))
+  const imageResponse = await csrfFetch(imageUrl, {
+    method: "POST",
+    body: JSON.stringify({preview:true, url: previewImgUrl}),
+  });
+  console.log(imageResponse)
+  // const previewImageData = await imageResponse.json();
+  // console.log(previewImageData)
+
   dispatch({
     type: CREATE_SPOT,
-    spot: { ...spotData },
+    spot: { ...spotData},
   });
   return id;
 };
@@ -72,10 +89,10 @@ export const editSpot = (id, payload) => async (dispatch) => {
 export const deleteSpot = (id) => async (dispatch) => {
   const url = `/api/spots/${id}`;
 
-  const response = await csrfFetch(url, {
+   await csrfFetch(url, {
     method:"DELETE"
   });
-  const message = await response.json();
+
 
   dispatch({ type: DELETE_SPOT, id});
 };

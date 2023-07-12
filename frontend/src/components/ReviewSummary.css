@@ -1,0 +1,13 @@
+.review-firstName {
+    font-family: sans-serif;
+    font-weight: bold;
+}
+.review-time {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: initial;
+    font-style:italic;
+    color: gray;
+}
+
+

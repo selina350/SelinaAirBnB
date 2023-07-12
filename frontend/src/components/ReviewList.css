@@ -1,0 +1,11 @@
+.review-list-container {
+    border-top: 2px solid black;
+    border-style: inset;
+  }
+  .reviews-list-spot {
+    display: flex;
+
+  }
+.review-summary {
+    padding: 12px
+}
