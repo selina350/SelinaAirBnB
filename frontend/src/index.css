@@ -49,6 +49,10 @@ button.primary {
   color: white;
   border: black 1px solid;
 }
+button.primary:disabled {
+  cursor: crosshair;
+  background-color: gray
+}
 
 button.accent {
   background-color: #999999;

@@ -320,7 +320,9 @@ function CreateNewSpot({ spot = {} }) {
           {isEditing ? "Update Spot" : "Create Spot"}
         </button>
       </div>
+      
     </div>
+
   );
 }
 

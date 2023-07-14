@@ -4,7 +4,7 @@ import { Redirect, NavLink } from "react-router-dom";
 import * as sessionActions from "../../store/session";
 import "./signupForm.css";
 import Modal from "../Modal";
-function SignupFormPage() {
+function SignupFormPage({ onClose, onLogInClick }) {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const [email, setEmail] = useState("");
@@ -44,7 +44,7 @@ function SignupFormPage() {
   };
 
   return (
-    <Modal title="Sign Up">
+    <Modal title="Sign Up" onClose={onClose}>
       <form className="Signup-form" onSubmit={handleSubmit}>
         <input
           type="text"
@@ -108,9 +108,11 @@ function SignupFormPage() {
         <button type="submit" className="primary">
           Sign Up
         </button>
-        <h3>Doesn't have an account?</h3>
-        <NavLink className="Login-signup-link" to={"/Login"}>Log In</NavLink>
       </form>
+      <h3>Already have an account?</h3>
+      <button className="Login-signup-link" onClick={onLogInClick}>
+        Log In
+      </button>
     </Modal>
   );
 }

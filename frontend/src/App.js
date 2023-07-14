@@ -27,12 +27,6 @@ function App() {
         <Route exact path="/">
             <SpotList />
           </Route>
-          <Route path="/login">
-            <LoginFormPage />
-          </Route>
-          <Route path="/signup">
-            <SignupFormPage />
-          </Route>
           <Route path="/spots/create">
             <CreateNewSpot />
           </Route>
