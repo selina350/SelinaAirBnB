@@ -11,37 +11,16 @@ import SignupFormPage from "../SignupFormPage";
 
 function Navigation(isLoaded) {
   const sessionUser = useSelector((state) => state.session.user);
-  const isLoggedIn = Object.keys(sessionUser).length;
+  const isLoggedIn = Object.keys(sessionUser).length > 0;
   const [logInModalOpen, setLogInModalOpen] = useState(false);
   const [signUpModalOpen, setSignUpModalOpen] = useState(false);
-  let sessionLinks;
-  function handleLogIn() {
+
+  const handleLogIn = () => {
     setLogInModalOpen(true);
-  }
+  };
   const handleSignUp = () => {
     setSignUpModalOpen(true);
   };
-  if (isLoaded && isLoggedIn) {
-    sessionLinks = (
-      <div className="NavBar-right-container">
-        <NavLink to="/spots/create">
-          <button>Create a New Spot</button>
-        </NavLink>
-        <ProfileButton user={sessionUser} />
-      </div>
-    );
-  } else {
-    sessionLinks = (
-      <div className="NavBar-right-container">
-        <button className="primary" onClick={handleLogIn}>
-          Log In
-        </button>
-        <button className="accent" onClick={handleSignUp}>
-          Sign Up
-        </button>
-      </div>
-    );
-  }
 
   return (
     <div className="NavBar">
@@ -51,7 +30,24 @@ function Navigation(isLoaded) {
         </NavLink>
       </div>
       <div className="NavBar-mid-container"></div>
-      {sessionLinks}
+      {isLoaded && isLoggedIn && (
+        <div className="NavBar-right-container">
+          <NavLink to="/spots/create">
+            <button>Create a New Spot</button>
+          </NavLink>
+          <ProfileButton user={sessionUser} />
+        </div>
+      )}
+      {isLoaded && !isLoggedIn && (
+        <div className="NavBar-right-container">
+          <button className="primary" onClick={handleLogIn}>
+            Log In
+          </button>
+          <button className="accent" onClick={handleSignUp}>
+            Sign Up
+          </button>
+        </div>
+      )}
       {logInModalOpen && (
         <LoginFormPage
           onSignupClick={() => {

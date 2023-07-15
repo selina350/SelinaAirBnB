@@ -19,13 +19,24 @@ function LoginFormPage({ onClose, onSignupClick }) {
     e.preventDefault();
     setErrors({});
 
-    dispatch(sessionActions.logInUser({ credential, password })).catch(
-      async (res) => {
+    dispatch(sessionActions.logInUser({ credential, password }))
+      .then(() => onClose())
+      .catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) setErrors(data.errors);
-      }
-    );
+      });
   };
+
+  const handleDemoUserLogIn =(e)=>{
+    e.preventDefault();
+
+    dispatch(sessionActions.logInUser({ credential:"demo@user.io", password:"password1" }))
+      .then(() => onClose())
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) setErrors(data.errors);
+      });
+  }
 
   return (
     <>
@@ -53,6 +64,13 @@ function LoginFormPage({ onClose, onSignupClick }) {
             onClick={handleSubmit}
           >
             Log In
+          </button>
+          <button
+            className="primary"
+            type="submit"
+            onClick={handleDemoUserLogIn}
+          >
+            Demo User Log In
           </button>
         </form>
         <h3>Doesn't have an account?</h3>
