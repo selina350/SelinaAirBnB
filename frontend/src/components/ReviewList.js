@@ -101,8 +101,14 @@ function ReviewList() {
               "Be the first one to leave a post!"}
           </div>
           <div>
-            {Object.values(allReviews).map((review) => (
-              <div className="reviews-list-spot">
+            {Object.values(allReviews).sort((reviewA,reviewB)=>{
+              if(reviewA.createdAt < reviewB.createdAt){
+                return 1
+              }else{
+                return -1
+              }
+            }).map((review, i) => (
+              <div className="reviews-list-spot" key={i}>
                 <ReviewSummary review={review} />
               </div>
             ))}
@@ -111,7 +117,7 @@ function ReviewList() {
         {confirmModalOpen && (
           <Modal title="How was your stay?" onClose={handleOnClose}>
             <div>
-              <p>{Object.values(validationErrors)}</p>
+              {Object.values(validationErrors)}
               <textarea
                 placeholder="Leave your review here..."
                 type="text"
@@ -163,6 +169,7 @@ function ReviewList() {
                 &nbsp;Stars
               </div>
               <button
+              className="primary"
                 disabled={Object.values(validationErrors).length > 0}
                 onClick={handleSubmit}
               >

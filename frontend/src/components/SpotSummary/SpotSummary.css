@@ -1,8 +1,12 @@
-.spot-summary img {
+.spot-summary .image {
   width: 100%;
   aspect-ratio: 1 / 1;
-  object-fit: cover;
   border-radius: 16px;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .spot-summary a {
@@ -21,4 +25,17 @@
 
 .spot-summary-text {
   padding-bottom: 20px;
+}
+
+.spot-summary .image .tooltiptext {
+  visibility: hidden;
+  background-color: lightcoral;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  width: 120px;
+}
+
+.spot-summary .image:hover .tooltiptext {
+  visibility: visible;
 }

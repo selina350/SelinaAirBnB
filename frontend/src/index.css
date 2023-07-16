@@ -15,8 +15,6 @@ hr {
   background: black;
 }
 
-
-
 h1 {
   font-size: 24pt;
   font-weight: bold;
@@ -31,6 +29,10 @@ h3 {
 
 a {
   color: #00525e;
+}
+
+input:disabled {
+  cursor: not-allowed;
 }
 
 button {
@@ -48,6 +50,10 @@ button.primary {
   background-color: #ff5a5f;
   color: white;
   border: black 1px solid;
+}
+button.primary:disabled {
+  cursor: crosshair;
+  background-color: gray;
 }
 
 button.accent {

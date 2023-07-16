@@ -46,7 +46,7 @@ function SpotDetail() {
             <div>{spot.description}</div>
           </div>
           <div className="spot-detail-reservation">
-            <div>${spot.price}</div>
+            <div>${spot.price} night</div>
             {spot.avgRating && (
               <div>
                 <i className="fa-solid fa-star"></i> {spot.avgRating} {"• "}
@@ -59,7 +59,7 @@ function SpotDetail() {
                 <i className="review fa-solid fa-star"></i> New
               </div>
             ) : null}
-            <button className="primary">Reserve</button>
+            <button className="primary" onClick={()=>{alert("feature comming soon.")}}>Reserve</button>
           </div>
         </div>
 

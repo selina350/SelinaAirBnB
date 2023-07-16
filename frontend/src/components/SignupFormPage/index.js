@@ -4,7 +4,7 @@ import { Redirect, NavLink } from "react-router-dom";
 import * as sessionActions from "../../store/session";
 import "./signupForm.css";
 import Modal from "../Modal";
-function SignupFormPage() {
+function SignupFormPage({ onClose, onLogInClick }) {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const [email, setEmail] = useState("");
@@ -44,7 +44,7 @@ function SignupFormPage() {
   };
 
   return (
-    <Modal title="Sign Up">
+    <Modal title="Sign Up" onClose={onClose}>
       <form className="Signup-form" onSubmit={handleSubmit}>
         <input
           type="text"
@@ -53,9 +53,7 @@ function SignupFormPage() {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-
-        {errors.email && <p>{errors.email}</p>}
-
+        <div className="error">{errors.email && errors.email}</div>
         <input
           type="text"
           placeholder="Username"
@@ -63,9 +61,7 @@ function SignupFormPage() {
           onChange={(e) => setUsername(e.target.value)}
           required
         />
-
-        {errors.username && <p>{errors.username}</p>}
-
+        <div className="error">{errors.username && errors.username}</div>
         <input
           type="text"
           placeholder="First Name"
@@ -73,9 +69,7 @@ function SignupFormPage() {
           onChange={(e) => setFirstName(e.target.value)}
           required
         />
-
-        {errors.firstName && <p>{errors.firstName}</p>}
-
+        <div className="error">{errors.firstName && errors.firstName}</div>
         <input
           type="text"
           placeholder="Last Name"
@@ -83,9 +77,7 @@ function SignupFormPage() {
           onChange={(e) => setLastName(e.target.value)}
           required
         />
-
-        {errors.lastName && <p>{errors.lastName}</p>}
-
+        <div className="error">{errors.lastName && errors.lastName}</div>
         <input
           type="password"
           placeholder="password"
@@ -93,9 +85,7 @@ function SignupFormPage() {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-
-        {errors.password && <p>{errors.password}</p>}
-
+        <div className="error">{errors.password && errors.password}</div>
         <input
           type="password"
           placeholder="Confirm Password"
@@ -103,14 +93,28 @@ function SignupFormPage() {
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
         />
-
-        {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
-        <button type="submit" className="primary">
+        <div className="error">
+          {errors.confirmPassword && errors.confirmPassword}
+        </div>
+        <button
+          type="submit"
+          className="primary"
+          disabled={
+            email.length === 0 ||
+            username.length < 4 ||
+            firstName.length === 0 ||
+            lastName.length === 0 ||
+            password.length < 6 ||
+            confirmPassword.length < 6
+          }
+        >
           Sign Up
         </button>
-        <h3>Doesn't have an account?</h3>
-        <NavLink className="Login-signup-link" to={"/Login"}>Log In</NavLink>
       </form>
+      <h3>Already have an account?</h3>
+      <button className="Login-signup-link" onClick={onLogInClick}>
+        Log In
+      </button>
     </Modal>
   );
 }

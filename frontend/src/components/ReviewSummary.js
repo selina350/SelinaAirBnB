@@ -50,9 +50,9 @@ function ReviewSummary({ review, showAction }) {
         <Modal title="Confirm Delete">
           <div>
             <h3>Are you sure to delete this review? </h3>
-            <button onClick={handleDelete}>Yes</button>
+            <button className="primary" onClick={handleDelete}>Yes</button>
             <button
-              className="primary"
+
               onClick={() => setConfirmModalOpen(false)}
             >
               No
