@@ -36,7 +36,7 @@ function SpotSummary({ spot, showAction }) {
               <div className="spot-summary-rate">
                 <i className="fa-solid fa-star" />
                 &nbsp;
-                {spot.avgRating && spot.avgRating.toFixed(2)}
+                {spot.avgRating && Number(spot.avgRating).toFixed(2)}
                 {spot.avgRating === null ? "New" : null}
               </div>
             </div>
