@@ -107,8 +107,8 @@ function ReviewList() {
               }else{
                 return -1
               }
-            }).map((review) => (
-              <div className="reviews-list-spot">
+            }).map((review, i) => (
+              <div className="reviews-list-spot" key={i}>
                 <ReviewSummary review={review} />
               </div>
             ))}

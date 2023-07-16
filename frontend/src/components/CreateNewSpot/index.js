@@ -28,10 +28,8 @@ function CreateNewSpot({ spot = {} }) {
     if (previewImageObj) {
       previewImageURL = previewImageObj.url;
     }
-    spot.SpotImages.forEach((image, i) => {
-      if (!image.preview) {
-        imageURLs.push(image.url);
-      }
+    spot.SpotImages.filter((image) => !image.preview).forEach((image, i) => {
+      imageURLs[i] = image.url;
     });
   }
   const [previewImg, setPreviewImg] = useState(previewImageURL);
@@ -74,10 +72,10 @@ function CreateNewSpot({ spot = {} }) {
           imageUrl.endsWith(".jpeg")
         )
       ) {
-        errors.i = "Image url must ends  in .png, jpg, or .jpeg";
+        errors[`image${i}`] = "Image url must ends  in .png, jpg, or .jpeg";
       }
     });
-
+    console.log(errors);
     setValidationErrors(errors);
   }, [
     country,
@@ -117,7 +115,7 @@ function CreateNewSpot({ spot = {} }) {
             setValidationErrors(data.validationErrors);
         });
     } else {
-      dispatch(spotsAction.createSpot(payload, previewImg))
+      dispatch(spotsAction.createSpot(payload, previewImg, images))
         .then((id) => history.push(`/spots/${id}`))
         .catch(async (res) => {
           const data = await res.json();
@@ -238,7 +236,10 @@ function CreateNewSpot({ spot = {} }) {
           <hr />
           <h3> Liven up your spot with photos </h3>
           <div>Submit a link to at least one photo to publish your spot.</div>
+          <label>Preview Image</label>
+
           <input
+            disabled={isEditing}
             placeholder="Preview Image URL"
             type="text"
             value={previewImg}
@@ -248,25 +249,30 @@ function CreateNewSpot({ spot = {} }) {
           <div className="error">
             {hasSubmitted && validationErrors.previewImg}
           </div>
-
-          {images.map((imageUrl, i) => {
-            return (
-              <div key={i}>
-                <input
-                  placeholder="Image URL"
-                  type="text"
-                  value={imageUrl}
-                  onChange={(e) => {
-                    const newImages = [...images];
-                    newImages[i] = e.target.value;
-                    setImages(newImages);
-                  }}
-                  required
-                />
-                {hasSubmitted && validationErrors.imageUrl}
-              </div>
-            );
-          })}
+          <div className="other-images-container">
+            {images.map((imageUrl, i) => {
+              return (
+                <div key={i} className="other-image">
+                  <label>Other Image {i + 1}</label>
+                  <input
+                    disabled={isEditing}
+                    placeholder="Image URL"
+                    type="text"
+                    value={imageUrl}
+                    onChange={(e) => {
+                      const newImages = [...images];
+                      newImages[i] = e.target.value;
+                      setImages(newImages);
+                    }}
+                    required
+                  />
+                  <div className="error">
+                    {hasSubmitted && validationErrors[`image${i}`]}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
 
           {/* <hr /> */}
         </form>

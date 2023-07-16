@@ -8,3 +8,9 @@
 .spot-form-container {
   max-width: 500px;
 }
+
+.other-image {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

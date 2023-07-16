@@ -4,7 +4,7 @@ export const GET_ALL_SPOTS = "GET_ALL_SPOTS";
 export const CREATE_SPOT = "CREATE_SPOT";
 export const EDIT_SPOT = "EDIT_SPOT";
 export const GET_ONE_SPOT = "GET_ONE_SPOT";
-export const DELETE_SPOT = "DELETE_SPOT"
+export const DELETE_SPOT = "DELETE_SPOT";
 
 export const getAllSpots = () => async (dispatch) => {
   const url = `/api/spots`;
@@ -39,39 +39,46 @@ export const getUserSpots = () => async (dispatch) => {
 };
 
 //create spot
-export const createSpot = (payload,previewImgUrl) => async (dispatch) => {
-  const spotUrl = `/api/spots`;
+export const createSpot =
+  (payload, previewImgUrl, otherImages) => async (dispatch) => {
+    const spotUrl = `/api/spots`;
 
-  const response = await csrfFetch(spotUrl, {
-    method: "POST",
-    body: JSON.stringify(payload),
-  });
-  const spotData = await response.json();
-  const id = spotData.id;
+    const response = await csrfFetch(spotUrl, {
+      method: "POST",
+      body: JSON.stringify(payload),
+    });
+    const spotData = await response.json();
+    const id = spotData.id;
 
-  const imageUrl = `/api/spots/${id}/images`
-  // const imageResponse = await Promise.all(imageUrlArr.map( async imageUrl=>{
-  //   await csrfFetch(imageUrl, {
-  //     method: "POST",
-  //     body: JSON.stringify(imageUrl),
-  //   });
+    const imageUrl = `/api/spots/${id}/images`;
+    // const imageResponse = await Promise.all(imageUrlArr.map( async imageUrl=>{
+    //   await csrfFetch(imageUrl, {
+    //     method: "POST",
+    //     body: JSON.stringify(imageUrl),
+    //   });
 
-  //   const previewImageData = await response.json();
-  // }))
-  const imageResponse = await csrfFetch(imageUrl, {
-    method: "POST",
-    body: JSON.stringify({preview:true, url: previewImgUrl}),
-  });
-  console.log(imageResponse)
-  // const previewImageData = await imageResponse.json();
-  // console.log(previewImageData)
+    //   const previewImageData = await response.json();
+    // }))
+    const imageResponse = await csrfFetch(imageUrl, {
+      method: "POST",
+      body: JSON.stringify({ preview: true, url: previewImgUrl }),
+    });
 
-  dispatch({
-    type: CREATE_SPOT,
-    spot: { ...spotData},
-  });
-  return id;
-};
+    otherImages.forEach((image) => {
+      csrfFetch(imageUrl, {
+        method: "POST",
+        body: JSON.stringify({ preview: false, url: image }),
+      });
+    });
+    // const previewImageData = await imageResponse.json();
+    // console.log(previewImageData)
+
+    dispatch({
+      type: CREATE_SPOT,
+      spot: { ...spotData },
+    });
+    return id;
+  };
 
 export const editSpot = (id, payload) => async (dispatch) => {
   const url = `/api/users/me/spots/${id}`;
@@ -89,12 +96,11 @@ export const editSpot = (id, payload) => async (dispatch) => {
 export const deleteSpot = (id) => async (dispatch) => {
   const url = `/api/spots/${id}`;
 
-   await csrfFetch(url, {
-    method:"DELETE"
+  await csrfFetch(url, {
+    method: "DELETE",
   });
 
-
-  dispatch({ type: DELETE_SPOT, id});
+  dispatch({ type: DELETE_SPOT, id });
 };
 
 const initialState = { spots: {} };
@@ -117,9 +123,9 @@ const spots = (state = initialState, action) => {
       newState.spots = { ...newState.spots };
       newState.spots[action.spot.id] = action.spot;
       return newState;
-      case DELETE_SPOT:
+    case DELETE_SPOT:
       newState.spots = { ...newState.spots };
-      delete newState.spots[action.id]
+      delete newState.spots[action.id];
       return newState;
     default:
       return state;
