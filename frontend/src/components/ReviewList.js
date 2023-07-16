@@ -101,7 +101,13 @@ function ReviewList() {
               "Be the first one to leave a post!"}
           </div>
           <div>
-            {Object.values(allReviews).map((review) => (
+            {Object.values(allReviews).sort((reviewA,reviewB)=>{
+              if(reviewA.createdAt < reviewB.createdAt){
+                return 1
+              }else{
+                return -1
+              }
+            }).map((review) => (
               <div className="reviews-list-spot">
                 <ReviewSummary review={review} />
               </div>
