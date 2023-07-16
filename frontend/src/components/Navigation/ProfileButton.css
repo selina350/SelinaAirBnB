@@ -9,7 +9,7 @@
 }
 
 .profile-dropdown {
-  width: fit-content;
+  width: 100%;
   border: #cccccc 2px solid;
   margin-left: -100%;
   background-color: white;

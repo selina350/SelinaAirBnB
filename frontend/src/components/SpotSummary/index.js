@@ -15,13 +15,19 @@ function SpotSummary({ spot, showAction }) {
     const id = spot.id;
 
     dispatch(deleteSpot(id));
-    setConfirmModalOpen(false)
+    setConfirmModalOpen(false);
   };
   return (
     <div className="spot-summary">
       <Link to={`/spots/${spot.id}`}>
         <div>
-          <img src={spot.previewImage} alt="view"/>
+          <div
+            className="image"
+            style={{ backgroundImage: `url('${spot.previewImage}')` }}
+          >
+            <span class="tooltiptext">{spot.name}</span>
+          </div>
+
           <div className="spot-summary-text">
             <div className="spot-summary-text-first-row">
               <div>
@@ -30,12 +36,12 @@ function SpotSummary({ spot, showAction }) {
               <div className="spot-summary-rate">
                 <i className="fa-solid fa-star" />
                 &nbsp;
-                {spot.avgRating}
+                {spot.avgRating && spot.avgRating.toFixed(2)}
                 {spot.avgRating === null ? "New" : null}
               </div>
             </div>
 
-            <div>$ {spot.price}</div>
+            <div>$ {spot.price} /night</div>
           </div>
         </div>
       </Link>
@@ -49,13 +55,10 @@ function SpotSummary({ spot, showAction }) {
         <Modal title="Confirm Delete">
           <div>
             <h3>Are you sure to delete this spot from your listing? </h3>
-            <button onClick={handleDelete}>Yes</button>
-            <button
-              className="primary"
-              onClick={() => setConfirmModalOpen(false)}
-            >
-              No
+            <button className="primary" onClick={handleDelete}>
+              Yes
             </button>
+            <button onClick={() => setConfirmModalOpen(false)}>No</button>
           </div>
         </Modal>
       )}

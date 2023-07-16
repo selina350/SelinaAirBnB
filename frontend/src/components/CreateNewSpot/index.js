@@ -19,8 +19,10 @@ function CreateNewSpot({ spot = {} }) {
   const [name, setName] = useState(spot.name);
   const [price, setPrice] = useState(spot.price);
 
-  let imageURLs = [];
+  let imageURLs = ["", "", "", ""];
   let previewImageURL;
+
+  //if editing
   if (spot.SpotImages) {
     const previewImageObj = spot.SpotImages.find((image) => image.preview);
     if (previewImageObj) {
@@ -33,12 +35,7 @@ function CreateNewSpot({ spot = {} }) {
     });
   }
   const [previewImg, setPreviewImg] = useState(previewImageURL);
-
   const [images, setImages] = useState(imageURLs);
-  // const [img1, setImg1] = useState(imageURLs[0]);
-  // const [img2, setImg2] = useState(imageURLs[1]);
-  // const [img3, setImg3] = useState(imageURLs[2]);
-  // const [img4, setImg4] = useState(imageURLs[3]);
   const [validationErrors, setValidationErrors] = useState({});
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
@@ -69,7 +66,7 @@ function CreateNewSpot({ spot = {} }) {
     if (previewImg === undefined || previewImg.length === 0) {
       errors.previewImg = "PreviewImg is required.";
     }
-    images.forEach((imageUrl) => {
+    images.forEach((imageUrl, i) => {
       if (
         !(
           imageUrl.endsWith(".png") ||
@@ -77,19 +74,9 @@ function CreateNewSpot({ spot = {} }) {
           imageUrl.endsWith(".jpeg")
         )
       ) {
-        errors.imageUrl = "Image url must ends  in .png, jpg, or .jpeg";
+        errors.i = "Image url must ends  in .png, jpg, or .jpeg";
       }
     });
-    // if (
-    //   img1.length > 0 &&
-    //   !(
-    //     img1.endsWith(".png") ||
-    //     img1.endsWith(".jpg") ||
-    //     img1.endsWith(".jpeg")
-    //   )
-    // ) {
-    //   errors.img1 = "Image url must ends  in .png, jpg, or .jpeg";
-    // }
 
     setValidationErrors(errors);
   }, [
@@ -102,11 +89,6 @@ function CreateNewSpot({ spot = {} }) {
     price,
     previewImg,
     images,
-
-    // img1,
-    // img2,
-    // img3,
-    // img4,
   ]);
   const history = useHistory();
   const handleSubmit = (e) => {
@@ -122,11 +104,6 @@ function CreateNewSpot({ spot = {} }) {
       description,
       name,
       price,
-
-      // img1,
-      // img2,
-      // img3,
-      // img4,
     };
     if (Object.values(validationErrors).length > 0) {
       return;
@@ -154,10 +131,11 @@ function CreateNewSpot({ spot = {} }) {
     <div className="spot-form">
       <div className="spot-form-container">
         <h1>{isEditing ? "Update Spot" : " Create Spot"} </h1>
+        <hr />
         <h3>Where is your place located?</h3>
         Guests will only get your exact address once they booked a reservation.
         <form className="Login-form" onSubmit={handleSubmit}>
-          <lable>Country </lable>
+          <label>Country </label>
           <input
             placeholder="Country"
             type="text"
@@ -168,7 +146,7 @@ function CreateNewSpot({ spot = {} }) {
           <div className="error">
             {hasSubmitted && validationErrors.country}
           </div>
-          <lable>Street Address </lable>
+          <label>Street Address </label>
           <input
             placeholder="Street Address"
             type="text"
@@ -179,7 +157,7 @@ function CreateNewSpot({ spot = {} }) {
           <div className="error">
             {hasSubmitted && validationErrors.address}
           </div>
-          <lable>City </lable>
+          <label>City </label>
           <input
             placeholder="City"
             type="text"
@@ -188,7 +166,7 @@ function CreateNewSpot({ spot = {} }) {
             required
           />
           <div className="error">{hasSubmitted && validationErrors.city}</div>
-          <lable>State </lable>
+          <label>State </label>
           <input
             placeholder="State"
             type="text"
@@ -197,14 +175,14 @@ function CreateNewSpot({ spot = {} }) {
             required
           />
           <div className="error">{hasSubmitted && validationErrors.state}</div>
-          <lable>Latitude </lable>
+          <label>Latitude </label>
           <input
             placeholder="Latitude"
             type="text"
             value={lat}
             onChange={(e) => setLat(e.target.value)}
           />
-          <lable>Longitude </lable>
+          <label>Longitude </label>
           <input
             placeholder="Longitude"
             type="text"
@@ -214,8 +192,10 @@ function CreateNewSpot({ spot = {} }) {
           <hr />
           <h3>Describe your place to guests</h3>
 
-            <div>Mention the best features of your space, any specific amentities
-            like fast wifi or parking, and what you love about the neighborhood.</div>
+          <div>
+            Mention the best features of your space, any specific amentities
+            like fast wifi or parking, and what you love about the neighborhood.
+          </div>
 
           <textarea
             placeholder="Description"
@@ -268,61 +248,33 @@ function CreateNewSpot({ spot = {} }) {
           <div className="error">
             {hasSubmitted && validationErrors.previewImg}
           </div>
-          <div className="other-img">
-            {images.map((imageUrl, i) => {
-              return (
-                <div>
-                  <input
-                    placeholder="Image URL"
-                    type="text"
-                    value={imageUrl}
-                    onChange={(e) => setImages(e.target.value[i])}
-                    required
-                  />
-                  {hasSubmitted && validationErrors.imageUrl}
-                </div>
-              );
-            })}
-          </div>
-          <hr />
 
-          {/* <input
-          placeholder="Image URL"
-          type="text"
-          value={img1}
-          onChange={(e) => setImg1(e.target.value)}
-          required
-        />
-        {hasSubmitted && validationErrors.img1}
-        <input
-          placeholder="Image URL"
-          type="text"
-          value={img2}
-          onChange={(e) => setImg2(e.target.value)}
-          required
-        />
-        <input
-          placeholder="Image URL"
-          type="text"
-          value={img3}
-          onChange={(e) => setImg3(e.target.value)}
-          required
-        />
-        <input
-          placeholder="Image URL"
-          type="text"
-          value={img4}
-          onChange={(e) => setImg4(e.target.value)}
-          required
-        /> */}
+          {images.map((imageUrl, i) => {
+            return (
+              <div key={i}>
+                <input
+                  placeholder="Image URL"
+                  type="text"
+                  value={imageUrl}
+                  onChange={(e) => {
+                    const newImages = [...images];
+                    newImages[i] = e.target.value;
+                    setImages(newImages);
+                  }}
+                  required
+                />
+                {hasSubmitted && validationErrors.imageUrl}
+              </div>
+            );
+          })}
+
+          {/* <hr /> */}
         </form>
         <button className="primary" onClick={handleSubmit}>
           {isEditing ? "Update Spot" : "Create Spot"}
         </button>
       </div>
-      
     </div>
-
   );
 }
 

@@ -14,14 +14,16 @@ function Navigation(isLoaded) {
   const isLoggedIn = Object.keys(sessionUser).length > 0;
   const [logInModalOpen, setLogInModalOpen] = useState(false);
   const [signUpModalOpen, setSignUpModalOpen] = useState(false);
-
+  const [showMenu, setShowMenu] = useState(false);
   const handleLogIn = () => {
+    setShowMenu(false);
     setLogInModalOpen(true);
   };
   const handleSignUp = () => {
+    setShowMenu(false);
     setSignUpModalOpen(true);
   };
-
+  const buttonClassName = "primary " + (showMenu ? "" : " hidden");
   return (
     <div className="NavBar">
       <div className="NavBar-left-container">
@@ -30,24 +32,21 @@ function Navigation(isLoaded) {
         </NavLink>
       </div>
       <div className="NavBar-mid-container"></div>
-      {isLoaded && isLoggedIn && (
-        <div className="NavBar-right-container">
+
+      <div className="NavBar-right-container">
+        {isLoaded && isLoggedIn && (
           <NavLink to="/spots/create">
             <button>Create a New Spot</button>
           </NavLink>
-          <ProfileButton user={sessionUser} />
-        </div>
-      )}
-      {isLoaded && !isLoggedIn && (
-        <div className="NavBar-right-container">
-          <button className="primary" onClick={handleLogIn}>
-            Log In
-          </button>
-          <button className="accent" onClick={handleSignUp}>
-            Sign Up
-          </button>
-        </div>
-      )}
+        )}
+        <ProfileButton
+          user={sessionUser}
+          isLoaded={isLoaded}
+          isLoggedIn={isLoggedIn}
+          handleLogIn={handleLogIn}
+          handleSignUp={handleSignUp}
+        />
+      </div>
       {logInModalOpen && (
         <LoginFormPage
           onSignupClick={() => {

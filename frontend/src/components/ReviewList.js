@@ -111,7 +111,7 @@ function ReviewList() {
         {confirmModalOpen && (
           <Modal title="How was your stay?" onClose={handleOnClose}>
             <div>
-              <p>{Object.values(validationErrors)}</p>
+              {Object.values(validationErrors)}
               <textarea
                 placeholder="Leave your review here..."
                 type="text"
@@ -163,6 +163,7 @@ function ReviewList() {
                 &nbsp;Stars
               </div>
               <button
+              className="primary"
                 disabled={Object.values(validationErrors).length > 0}
                 onClick={handleSubmit}
               >
