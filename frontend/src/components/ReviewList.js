@@ -6,6 +6,7 @@ import * as reviewAction from "../store/reviews";
 import * as spotAction from "../store/spots";
 import Modal from "./Modal";
 import "./ReviewList.css";
+import { starToDecimal } from "../utils/spotHelper";
 function ReviewList() {
   const { id } = useParams();
   const spot = useSelector((state) => state.spots.spots[id]);
@@ -80,7 +81,7 @@ function ReviewList() {
         <hr />
         {spot.avgRating && (
           <div>
-            <i className="review fa-solid fa-star "></i> {spot.avgRating} {"• "}
+            <i className="review fa-solid fa-star "></i> {starToDecimal(spot.avgRating)} {"• "}
             {numOfReviews}
             {numOfReviews > 1 ? " Reviews" : " Review"}
           </div>

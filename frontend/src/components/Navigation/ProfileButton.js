@@ -30,7 +30,7 @@ function ProfileButton({
   const history = useHistory();
   const logout = (e) => {
     e.preventDefault();
-    setShowMenu(false)
+    setShowMenu(false);
     dispatch(sessionActions.logOutUser()).then(() => history.push(`/`));
   };
 
@@ -39,14 +39,20 @@ function ProfileButton({
   return (
     <div className="Profile-container" ref={ulRef}>
       <button onClick={() => setShowMenu(true)}>
+        <i class="fa-solid fa-bars" />
+        &nbsp;
         <i className="fas fa-user-circle" />
       </button>
       <div className="Profile-dropdown-container">
         <ul className={ulClassName}>
           {isLoaded && !isLoggedIn && (
             <div>
-              <button className="primary" onClick={()=>(handleLogIn())}>Log In</button>
-              <button className="primary" onClick={()=>(handleSignUp())}>Sign Up</button>
+              <button className="primary" onClick={() => handleLogIn()}>
+                Log In
+              </button>
+              <button className="primary" onClick={() => handleSignUp()}>
+                Sign Up
+              </button>
             </div>
           )}
           {isLoaded && isLoggedIn && (
