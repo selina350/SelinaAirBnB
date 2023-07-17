@@ -18,8 +18,8 @@ function SpotList() {
               }else{
                 return -1
               }
-            }).map((spot) => (
-          <div className="spots-list-spot">
+            }).map((spot, i) => (
+          <div key={i} className="spots-list-spot">
             <SpotSummary spot={spot} />
           </div>
         ))}
