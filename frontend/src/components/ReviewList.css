@@ -9,3 +9,6 @@
 .review-summary {
     padding: 12px
 }
+textarea {
+  width: 100%;
+}
