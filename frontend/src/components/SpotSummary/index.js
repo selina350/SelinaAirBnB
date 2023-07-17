@@ -4,6 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import { deleteSpot } from "../../store/spots";
 import Modal from "../Modal";
 import "./SpotSummary.css";
+import { starToDecimal } from "../../utils/spotHelper";
 function SpotSummary({ spot, showAction }) {
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
   const history = useHistory();
@@ -36,7 +37,7 @@ function SpotSummary({ spot, showAction }) {
               <div className="spot-summary-rate">
                 <i className="fa-solid fa-star" />
                 &nbsp;
-                {spot.avgRating && Number(spot.avgRating).toFixed(2)}
+                {spot.avgRating && starToDecimal(spot.avgRating)}
                 {spot.avgRating === null ? "New" : null}
               </div>
             </div>

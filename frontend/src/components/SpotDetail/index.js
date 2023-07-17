@@ -5,6 +5,7 @@ import { getOneSpot } from "../../store/spots";
 import { useParams } from "react-router-dom";
 import "./SpotDetail.css";
 import ReviewList from "../ReviewList";
+import { starToDecimal } from "../../utils/spotHelper";
 function SpotDetail() {
   const { id } = useParams();
   const spot = useSelector((state) => state.spots.spots[id]);
@@ -49,7 +50,7 @@ function SpotDetail() {
             <div>${spot.price} night</div>
             {spot.avgRating && (
               <div>
-                <i className="fa-solid fa-star"></i> {spot.avgRating} {"• "}
+                <i className="fa-solid fa-star"></i> {starToDecimal(spot.avgRating)} {"• "}
                 {numOfReviews}
                 {numOfReviews > 1 ? " Reviews" : " Review"}
               </div>
