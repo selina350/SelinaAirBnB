@@ -12,7 +12,13 @@ function SpotList() {
   return (
     <div className="spots-list">
       <div className="spots-list-container">
-        {Object.values(allSpots).map((spot) => (
+        {Object.values(allSpots).sort((reviewA,reviewB)=>{
+              if(reviewA.createdAt < reviewB.createdAt){
+                return 1
+              }else{
+                return -1
+              }
+            }).map((spot) => (
           <div className="spots-list-spot">
             <SpotSummary spot={spot} />
           </div>
