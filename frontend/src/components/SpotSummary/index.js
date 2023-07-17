@@ -26,7 +26,7 @@ function SpotSummary({ spot, showAction }) {
             className="image"
             style={{ backgroundImage: `url('${spot.previewImage}')` }}
           >
-            <span class="tooltiptext">{spot.name}</span>
+            <span className="tooltiptext">{spot.name}</span>
           </div>
 
           <div className="spot-summary-text">

@@ -67,7 +67,7 @@ function CreateNewSpot({ spot = {} }) {
       errors.previewImg = "PreviewImg is required.";
     }
     images.forEach((imageUrl, i) => {
-      if (
+      if (imageUrl.length > 0 &&
         !(
           imageUrl.endsWith(".png") ||
           imageUrl.endsWith(".jpg") ||
@@ -77,7 +77,7 @@ function CreateNewSpot({ spot = {} }) {
         errors[`image${i}`] = "Image url must ends  in .png, jpg, or .jpeg";
       }
     });
-    
+
     setValidationErrors(errors);
   }, [
     country,

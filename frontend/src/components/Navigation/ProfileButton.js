@@ -39,7 +39,7 @@ function ProfileButton({
   return (
     <div className="Profile-container" ref={ulRef}>
       <button onClick={() => setShowMenu(true)}>
-        <i class="fa-solid fa-bars" />
+        <i className="fa-solid fa-bars" />
         &nbsp;
         <i className="fas fa-user-circle" />
       </button>

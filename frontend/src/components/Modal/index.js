@@ -9,7 +9,7 @@ const Modal = ({ children, onClose, title }) => {
       <div className="Modal-content" ref={containerRef}>
         {onClose && (
           <div className="Modal-close-tag">
-            <i class="fa-solid fa-xmark" onClick={onClose}></i>
+            <i className="fa-solid fa-xmark" onClick={onClose}></i>
           </div>
         )}
         <h1 className="Modal-title">{title}</h1>
