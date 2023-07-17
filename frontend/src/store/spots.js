@@ -34,7 +34,6 @@ export const getUserSpots = () => async (dispatch) => {
   const spotsData = await response.json();
   const spots = spotsData.Spots;
 
-
   dispatch({ type: GET_ALL_SPOTS, spots });
 };
 
@@ -65,12 +64,13 @@ export const createSpot =
     });
 
     otherImages.forEach((image) => {
-      csrfFetch(imageUrl, {
-        method: "POST",
-        body: JSON.stringify({ preview: false, url: image }),
-      });
+      if (image.length > 0) {
+        csrfFetch(imageUrl, {
+          method: "POST",
+          body: JSON.stringify({ preview: false, url: image }),
+        });
+      }
     });
-   
 
     dispatch({
       type: CREATE_SPOT,
