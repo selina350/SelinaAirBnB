@@ -77,7 +77,7 @@ function CreateNewSpot({ spot = {} }) {
         errors[`image${i}`] = "Image url must ends  in .png, jpg, or .jpeg";
       }
     });
-    console.log(errors);
+    
     setValidationErrors(errors);
   }, [
     country,

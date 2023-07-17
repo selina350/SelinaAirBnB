@@ -33,7 +33,7 @@ export const getUserSpots = () => async (dispatch) => {
 
   const spotsData = await response.json();
   const spots = spotsData.Spots;
-  console.log(spots);
+
 
   dispatch({ type: GET_ALL_SPOTS, spots });
 };
@@ -70,8 +70,7 @@ export const createSpot =
         body: JSON.stringify({ preview: false, url: image }),
       });
     });
-    // const previewImageData = await imageResponse.json();
-    // console.log(previewImageData)
+   
 
     dispatch({
       type: CREATE_SPOT,
