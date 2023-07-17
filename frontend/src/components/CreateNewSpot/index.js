@@ -54,6 +54,8 @@ function CreateNewSpot({ spot = {} }) {
     }
     if (description === undefined || description.length === 0) {
       errors.description = "Description needs a minimum of 30 characters.";
+    }else if(description.length >= 255){
+      errors.description = "Description is too long(more than 255 characters).";
     }
     if (name === undefined || name.length === 0) {
       errors.name = "Name is required.";
